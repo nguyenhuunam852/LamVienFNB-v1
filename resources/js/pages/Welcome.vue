@@ -316,9 +316,10 @@ export default {
       $('#demos .hidden, #demos .visible').each(function (index) {
         let elementTop = $(this).offset().top
         let elementBottom = elementTop + $(this).outerHeight()
+        let middle = (elementBottom - elementTop)/2
 
-        if (elementBottom < windowBottom) {
-          let delay = index * 100
+        if (elementBottom - middle < windowBottom) {
+          let delay = index * 50
           $(this).css('animation-delay', delay + 'ms')
           $(this).removeClass('hidden').addClass('visible animate__fadeInRight')
         }
