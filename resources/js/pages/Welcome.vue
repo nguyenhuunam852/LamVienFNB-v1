@@ -1,16 +1,17 @@
 <template>
     <header>
         <!-- header inner -->
-        <div class="header">
+        <div class="header lazy-background" data-bg="/images/header-bg.jpg">
             <div class="header_white_section">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="header_information">
                                 <ul>
-                                    <li><img src="../../images/1.png" alt="#" /> 145.street road new York</li>
-                                    <li><img src="../../images/2.png" alt="#" /> +71 5678954378</li>
-                                    <li><img src="../../images/3.png" alt="#" /> Demo@hmail.com</li>
+                                    <li><img loading="lazy" src="../../images/1.png" alt="#" /> 145.street road new York
+                                    </li>
+                                    <li><img loading="lazy" src="../../images/2.png" alt="#" /> +71 5678954378</li>
+                                    <li><img loading="lazy" src="../../images/3.png" alt="#" /> Demo@hmail.com</li>
                                 </ul>
                             </div>
                         </div>
@@ -47,8 +48,8 @@
     </header>
     <section style="margin-bottom: 30px;">
         <div class="banner-main">
-            <img class="banner" src="../../images/banner.jpg" alt="#" />
-            <img class="cloud" src="../../images/cloud.png" alt="Cloud" />
+            <img loading="lazy" class="banner" src="../../images/banner.jpg" alt="#" />
+            <img loading="lazy" class="cloud" src="../../images/cloud.png" alt="Cloud" />
             <div class="banner-content">
                 <h1 class="banner-item">Lam Vien Project</h1>
             </div>
@@ -88,7 +89,8 @@
                                     need to
                                     be sure there</span></p>
                             <div class="palne-img-area">
-                                <img src="../../images/plane-img.png" class="animate__animated hidden" alt="images" />
+                                <img loading="lazy" src="../../images/plane-img.png" class="animate__animated hidden"
+                                    alt="images" />
                             </div>
                         </div>
                     </div>
@@ -118,7 +120,7 @@
                         <div class="owl-carousel owl-theme">
                             <div class="item animate__animated hidden">
                                 <a href="/">
-                                    <img class="img-responsive" src="../../images/1.jpeg" alt="#" />
+                                    <img loading="lazy" class="img-responsive" src="../../images/1.jpeg" alt="#" />
                                     <h3>Holiday Tour</h3>
                                     <p>There are many variations of passages of Lorem Ipsum available, but the majority
                                         have
@@ -128,7 +130,7 @@
                             </div>
                             <div class="item animate__animated hidden">
                                 <a href="/">
-                                    <img class="img-responsive" src="../../images/2.jpg" alt="#" />
+                                    <img loading="lazy" class="img-responsive" src="../../images/2.jpg" alt="#" />
                                     <h3>New York</h3>
                                     <p>There are many variations of passages of Lorem Ipsum available, but the majority
                                         have
@@ -138,7 +140,7 @@
                             </div>
                             <div class="item animate__animated hidden">
                                 <a href="/">
-                                    <img class="img-responsive" src="../../images/3.jpg" alt="#" />
+                                    <img loading="lazy" class="img-responsive" src="../../images/3.jpg" alt="#" />
                                     <h3>London</h3>
                                     <p>There are many variations of passages of Lorem Ipsum available, but the majority
                                         have
@@ -146,11 +148,6 @@
                                     </p>
                                 </a>
                             </div>
-                            <!-- <div class="item">
-                           <img class="img-responsive" src="images/2.jpg" alt="#" />
-                           <h3>Holiday Tour</h3>
-                           <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in soe suffk even slightly believable. If y be sure there</p>
-                        </div> -->
                         </div>
                     </div>
                 </div>
@@ -159,122 +156,147 @@
     </div>
 
     <div id="section-3" class="section-3">
-      <div class="container">
-         <div class="row">
-            <div class="col-md-12">
-               <div class="titlepage">
-                  <h2>Our Blog</h2>
-                  <span>Lorem Ipsum is that it has a more-or-less normal distribution of letters,</span>
-               </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="titlepage">
+                        <h2>Our Blog</h2>
+                        <span>Lorem Ipsum is that it has a more-or-less normal distribution of letters,</span>
+                    </div>
+                </div>
             </div>
-         </div>
-         <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-               <div class="section-3-box animate__animated hidden">
-                  <figure><img src="../../images/blog-image0.jpg" alt="#" />
-                     <span>4 Feb 2019</span>
-                  </figure>
-                  <div class="travel">
-                     <span>Post By : Travel Agency</span>
-                     <p><strong class="hightlight-section-3"> 06 </strong> Comment</p>
-                     <p><strong class="hightlight-section-3">05 </strong>Like</p>
-                  </div>
-                  <h3>London Amazing Tour</h3>
-                  <p>It is a long established fact that a reader will be distracted by the readable content of a page
-                     when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
-                     distribution of letters, as opposed to using 'Content here, content here', making it look like
-                     readable English. Many desktop publishing packages and web</p>
-               </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <div class="section-3-box animate__animated hidden">
+                        <figure><img loading="lazy" src="../../images/blog-image0.jpg" alt="#" />
+                            <span>4 Feb 2019</span>
+                        </figure>
+                        <div class="travel">
+                            <span>Post By : Travel Agency</span>
+                            <p><strong class="hightlight-section-3"> 06 </strong> Comment</p>
+                            <p><strong class="hightlight-section-3">05 </strong>Like</p>
+                        </div>
+                        <h3>London Amazing Tour</h3>
+                        <p>It is a long established fact that a reader will be distracted by the readable content of a
+                            page
+                            when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less
+                            normal
+                            distribution of letters, as opposed to using 'Content here, content here', making it look
+                            like
+                            readable English. Many desktop publishing packages and web</p>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    <div class="section-3-box animate__animated hidden">
+                        <figure><img loading="lazy" src="../../images/blog-image.jpg" alt="#" />
+                            <span>10 Feb 2019</span>
+                        </figure>
+                        <div class="travel">
+                            <span>Post By : Travel Agency</span>
+                            <p><strong class="hightlight-section-3"> 06 </strong> Comment</p>
+                            <p><strong class="hightlight-section-3">05 </strong>Like</p>
+                        </div>
+                        <h3>London Amazing Tour</h3>
+                        <p>It is a long established fact that a reader will be distracted by the readable content of a
+                            page
+                            when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less
+                            normal
+                            distribution of letters, as opposed to using 'Content here, content here', making it look
+                            like
+                            readable English. Many desktop publishing packages and web</p>
+                    </div>
+                </div>
             </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                <div class="section-3-box animate__animated hidden">
-                  <figure><img src="../../images/blog-image.jpg" alt="#" />
-                     <span>10 Feb 2019</span>
-                  </figure>
-                  <div class="travel">
-                     <span>Post By : Travel Agency</span>
-                     <p><strong class="hightlight-section-3"> 06 </strong> Comment</p>
-                     <p><strong class="hightlight-section-3">05 </strong>Like</p>
-                  </div>
-                  <h3>London Amazing Tour</h3>
-                  <p>It is a long established fact that a reader will be distracted by the readable content of a page
-                     when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
-                     distribution of letters, as opposed to using 'Content here, content here', making it look like
-                     readable English. Many desktop publishing packages and web</p>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 
-   <footer>
-      <div id="contact" class="footer">
-         <div class="container">
-            <div class="row pdn-top-30">
-               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                  <ul class="location_icon">
-                     <li> <a href="#"><img src="../../images/facebook.png"/></a></li>
-                     <li> <a href="#"><img src="../../images/Twitter.png"/></a></li>
-                     <li> <a href="#"><img src="../../images/linkedin.png"/></a></li>
-                     <li> <a href="#"><img src="../../images/instagram.png"/></a></li>
-                  </ul>
-               </div>
-               <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                  <div class="Follow">
-                     <h3>CONTACT US</h3>
-                     <span>123 Second Street Fifth <br/>Avenue,<br/>
-                        Manhattan, New York<br/>
-                        +987 654 3210</span>
-                  </div>
-               </div>
-               <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                  <div class="Follow">
-                     <h3>ADDITIONAL LINKS</h3>
-                     <ul class="link">
-                        <li> <a href="#">About us</a></li>
-                        <li> <a href="#">Terms and conditions</a></li>
-                        <li> <a href="#"> Privacy policy</a></li>
-                        <li> <a href="#">News</a></li>
-                        <li> <a href="#"> Contact us</a></li>
-                     </ul>
-                  </div>
-               </div>
-               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                  <div class="Follow">
-                     <h3> Contact</h3>
-                     <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                           <input class="Newsletter" placeholder="Name" type="text"/>
+    <footer>
+        <div id="contact" class="footer">
+            <div class="container">
+                <div class="row pdn-top-30">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <ul class="location_icon">
+                            <li> <a href="#"><img loading="lazy" src="../../images/facebook.png" /></a></li>
+                            <li> <a href="#"><img loading="lazy" src="../../images/Twitter.png" /></a></li>
+                            <li> <a href="#"><img loading="lazy" src="../../images/linkedin.png" /></a></li>
+                            <li> <a href="#"><img loading="lazy" src="../../images/instagram.png" /></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                        <div class="Follow">
+                            <h3>CONTACT US</h3>
+                            <span>123 Second Street Fifth <br />Avenue,<br />
+                                Manhattan, New York<br />
+                                +987 654 3210</span>
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                           <input class="Newsletter" placeholder="Email" type="text"/>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                        <div class="Follow">
+                            <h3>ADDITIONAL LINKS</h3>
+                            <ul class="link">
+                                <li> <a href="#">About us</a></li>
+                                <li> <a href="#">Terms and conditions</a></li>
+                                <li> <a href="#"> Privacy policy</a></li>
+                                <li> <a href="#">News</a></li>
+                                <li> <a href="#"> Contact us</a></li>
+                            </ul>
                         </div>
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                           <textarea class="textarea" placeholder="comment" type="text">Comment</textarea>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="Follow">
+                            <h3> Contact</h3>
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                    <input class="Newsletter" placeholder="Name" type="text" />
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                    <input class="Newsletter" placeholder="Email" type="text" />
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <textarea class="textarea" placeholder="comment" type="text">Comment</textarea>
+                                </div>
+                            </div>
+                            <button class="Subscribe">Submit</button>
                         </div>
-                     </div>
-                     <button class="Subscribe">Submit</button>
-                  </div>
-               </div>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <div class="container">
+                        <p>Copyright 2019 All Right Reserved By <a href="https://html.design/">Free html Templates</a>
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="copyright">
-               <div class="container">
-                  <p>Copyright 2019 All Right Reserved By <a href="https://html.design/">Free html Templates</a></p>
-               </div>
-            </div>
-         </div>
-      </div>
-   </footer>
+        </div>
+    </footer>
 
 </template>
 
-<script>
+<script defer>
 import $ from 'jquery'
 import 'owl.carousel/dist/assets/owl.carousel.css'
 import 'owl.carousel'
 
 export default {
+
   mounted() {
+    let lazyBg = document.querySelector('.lazy-background')
+
+    let observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            let bg = entry.target.getAttribute('data-bg')
+            entry.target.style.backgroundImage = `url(${`${window.location.origin}${bg}`})`
+            entry.target.classList.add('lazy-loaded')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { rootMargin: '50px' },
+    )
+
+    observer.observe(lazyBg)
 
     $(document).ready(function () {
       var owl = $('.owl-carousel')
@@ -316,7 +338,7 @@ export default {
       $('#demos .hidden, #demos .visible').each(function (index) {
         let elementTop = $(this).offset().top
         let elementBottom = elementTop + $(this).outerHeight()
-        let middle = (elementBottom - elementTop)/2
+        let middle = (elementBottom - elementTop) / 2
 
         if (elementBottom - middle < windowBottom) {
           let delay = index * 50

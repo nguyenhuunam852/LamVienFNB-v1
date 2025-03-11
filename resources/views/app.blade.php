@@ -35,8 +35,6 @@
 
 <body class="main-layout">
     @inertia
-
-
 </body>
 
 </html>
