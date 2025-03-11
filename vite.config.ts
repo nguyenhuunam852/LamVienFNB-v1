@@ -5,14 +5,19 @@ import path from 'path';
 import tailwindcss from 'tailwindcss';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
+import inject from "@rollup/plugin-inject";
 
 export default defineConfig({
     plugins: [
-        laravel({
-            input: ['resources/js/app.ts'],
-            ssr: 'resources/js/ssr.ts',
-            refresh: true,
-        }),
+        inject({   // => that should be first under plugins array
+                     $: 'jquery',
+                     jQuery: 'jquery',
+                   }),
+        laravel([
+            'resources/css/client.css',
+            'resources/css/admin.css',
+            'resources/js/app.js',
+        ]),
         vue({
             template: {
                 transformAssetUrls: {
