@@ -1,20 +1,20 @@
 import vue from '@vitejs/plugin-vue';
-import autoprefixer from 'autoprefixer';
 import laravel from 'laravel-vite-plugin';
 import path from 'path';
 import tailwindcss from 'tailwindcss';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import inject from "@rollup/plugin-inject";
+import WindiCSS from 'vite-plugin-windicss';
 
 export default defineConfig({
     plugins: [
-        inject({   // => that should be first under plugins array
+        WindiCSS(),
+        inject({
                      $: 'jquery',
                      jQuery: 'jquery',
                    }),
         laravel([
-            'resources/css/client.css',
             'resources/css/admin.css',
             'resources/js/app.ts',
         ]),
@@ -25,6 +25,7 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
+
         }),
     ],
     resolve: {
@@ -35,7 +36,7 @@ export default defineConfig({
     },
     css: {
         postcss: {
-            plugins: [tailwindcss, autoprefixer],
+            plugins: [tailwindcss],
         },
     },
 });
