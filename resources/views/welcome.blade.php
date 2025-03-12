@@ -13,7 +13,7 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href="css/client.css">
+    <link rel="stylesheet" href="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/css/client.css">
 </head>
 <!-- body -->
 
@@ -23,19 +23,19 @@
     <!-- header -->
     <header>
         <!-- header inner -->
-        <div class="header lazy-background" data-bg="/images/header-bg.jpg">
+        <div class="header lazy-background" data-bg="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/header-bg.webp">
             <div class="header_white_section">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="header_information">
                                 <ul>
-                                    <li><img loading="lazy" src="../../images/1.png" alt="#" /> 145.street road
+                                    <li><img loading="lazy" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/1a.webp" alt="#" /> 145.street road
                                         new York
                                     </li>
-                                    <li><img loading="lazy" src="../../images/2.png" alt="#" /> +71 5678954378
+                                    <li><img loading="lazy" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/2a.webp" alt="#" /> +71 5678954378
                                     </li>
-                                    <li><img loading="lazy" src="../../images/3.png" alt="#" /> Demo@hmail.com
+                                    <li><img loading="lazy" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/3a.webp" alt="#" /> Demo@hmail.com
                                     </li>
                                 </ul>
                             </div>
@@ -48,8 +48,7 @@
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
                         <div class="full">
                             <div class="center-desk">
-                                <div class="logo"> <a href="index.html"><img src="../../images/logo.png"
-                                            alt="#" /></a>
+                                <div class="logo"> <a href="index.html"><img loading="lazy" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/logo.webp" alt="#" /></a>
                                 </div>
                             </div>
                         </div>
@@ -74,8 +73,8 @@
     </header>
     <section style="margin-bottom: 30px;">
         <div class="banner-main">
-            <img loading="lazy" class="banner" src="../../images/banner.jpg" alt="#" />
-            <img loading="lazy" class="cloud" src="../../images/cloud.png" alt="Cloud" />
+            <img loading="lazy" class="banner" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/banner.webp" alt="#" />
+            <img loading="lazy" class="cloud" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/cloud.webp" alt="Cloud" />
             <div class="banner-content">
                 <h1 class="banner-item">Lam Vien Project</h1>
             </div>
@@ -115,7 +114,7 @@
                                     need to
                                     be sure there</span></p>
                             <div class="palne-img-area">
-                                <img loading="lazy" src="../../images/plane-img.png" class="animate__animated hidden"
+                                <img loading="lazy" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/plane-img.webp" class="animate__animated hidden"
                                     alt="images" />
                             </div>
                         </div>
@@ -144,19 +143,19 @@
             </div>
             <div class="row">
                 <a href="/" class="col-sm item animate__animated hidden">
-                    <img loading="lazy" class="img-responsive" src="images/1.jpeg" alt="#" />
+                    <img loading="lazy" class="img-responsive" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/1.webp" alt="#" />
                     <h3>Holiday Tour</h3>
                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have
                         suffered alteration in soe suffk even slightly believable. If y be sure there</p>
                 </a>
                 <a href="/" class="col-sm item animate__animated hidden">
-                    <img loading="lazy" class="img-responsive" src="images/2.jpg" alt="#" />
+                    <img loading="lazy" class="img-responsive" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/2.webp" alt="#" />
                     <h3>New York</h3>
                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have
                         suffered alteration in soe suffk even slightly believable. If y be sure there</p>
                 </a>
                 <a href="/" class="col-sm item animate__animated hidden">
-                    <img loading="lazy" class="img-responsive" src="images/3.jpg" alt="#" />
+                    <img loading="lazy" class="img-responsive" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/3.webp" alt="#" />
                     <h3>London</h3>
                     <p>There are many variations of passages of Lorem Ipsum available, but the majority have
                         suffered alteration in soe suffk even slightly believable. If y be sure there</p>
@@ -179,7 +178,7 @@
             <div class="row">
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                     <div class="section-3-box animate__animated hidden">
-                        <figure><img loading="lazy" src="images/blog-image0.jpg" alt="#" />
+                        <figure><img loading="lazy" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/blog-image0.webp" alt="#" />
                             <span>4 Feb 2019</span>
                         </figure>
                         <div class="travel">
@@ -199,7 +198,7 @@
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                     <div class="section-3-box animate__animated hidden">
-                        <figure><img loading="lazy" src="images/blog-image.jpg" alt="#" />
+                        <figure><img loading="lazy" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/blog-image.webp" alt="#" />
                             <span>10 Feb 2019</span>
                         </figure>
                         <div class="travel">
@@ -228,10 +227,10 @@
                 <div class="row pdn-top-30">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <ul class="location_icon">
-                            <li> <a href="#"><img loading="lazy" src="../../images/facebook.png" /></a></li>
-                            <li> <a href="#"><img loading="lazy" src="../../images/Twitter.png" /></a></li>
-                            <li> <a href="#"><img loading="lazy" src="../../images/linkedin.png" /></a></li>
-                            <li> <a href="#"><img loading="lazy" src="../../images/instagram.png" /></a></li>
+                            <li> <a href="#"><img loading="lazy" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/facebook.webp" /></a></li>
+                            <li> <a href="#"><img loading="lazy" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/Twitter.webp" /></a></li>
+                            <li> <a href="#"><img loading="lazy" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/linkedin.webp" /></a></li>
+                            <li> <a href="#"><img loading="lazy" src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/instagram.webp" /></a></li>
                         </ul>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
@@ -290,7 +289,7 @@
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         let bg = entry.target.getAttribute('data-bg')
-                        entry.target.style.backgroundImage = `url(${`${window.location.origin}${bg}`})`
+                        entry.target.style.backgroundImage = `url(${`${bg}`})`
                         entry.target.classList.add('lazy-loaded')
                         observer.unobserve(entry.target)
                     }
