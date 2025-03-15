@@ -21,6 +21,10 @@
             --animate-repeat: 1
         }
 
+        .banner {
+            margin-bottom: 30px;
+        }
+
         .animated {
             -webkit-animation-duration: 1s;
             animation-duration: 1s;
@@ -36,6 +40,11 @@
         .fadeInRight {
             -webkit-animation-name: fadeInRight;
             animation-name: fadeInRight
+        }
+
+        .fadeInDown {
+            -webkit-animation-name: fadeInDown;
+            animation-name: fadeInDown
         }
 
 
@@ -88,6 +97,18 @@
             to {
                 opacity: 1;
                 transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-300px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
@@ -501,7 +522,8 @@
         }
 
         .header {
-            background: url(https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/header-bg.webp);
+            /* background: url(https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/header-bg.webp); */
+            background: linear-gradient(to right, #215e1c, #4c9a2a, #a5d652);
             background-color: rgba(0, 0, 0, 0);
             background-repeat: repeat;
             background-size: auto;
@@ -517,7 +539,6 @@
             background-size: 100% 100%;
             background-repeat: no-repeat;
             min-height: 110px;
-            padding-top: 50px;
         }
 
         .container-fluid {
@@ -661,7 +682,6 @@
         .logo {
             float: left;
             position: relative;
-            top: -22px;
         }
 
         .mean-nav ul li.mean-last a {
@@ -861,6 +881,8 @@
             height: 600px;
             overflow: hidden;
             padding-bottom: 10px;
+            border-bottom-left-radius: 50% 50px;
+            border-bottom-right-radius: 50% 50px;
         }
 
         .banner {
@@ -957,6 +979,7 @@
             color: #141012;
             position: relative;
             margin: 50px auto;
+            width: 100%;
             display: inline-block;
             padding: 60px 25px;
             border-left: 15px solid #0a8f44;
@@ -974,7 +997,6 @@
             background-image: -moz-linear-gradient(left, #0a8f44 0%, #063d1e 100%), -moz-linear-gradient(left, #0a8f44 0%, #063d1e 100%);
             background-image: -o-linear-gradient(left, #0a8f44 0%, #063d1e 100%), -o-linear-gradient(left, #0a8f44 0%, #063d1e 100%);
             background-image: linear-gradient(to right, #0a8f44 0%, #063d1e 100%), linear-gradient(to right, #0a8f44 0%, #063d1e 100%);
-            max-width: 1004px;
         }
 
         .section-1 .section-1-box p span {
@@ -984,10 +1006,10 @@
 
         .palne-img-area {
             position: absolute;
-            top: -140px;
-            left: 25%;
-            width: 100%;
-            height: 140%;
+            top: -20px;
+            left: 65%;
+            width: 35%;
+            height: 120%;
         }
 
         .palne-img-area img {
@@ -1596,6 +1618,14 @@
             .footer {
                 margin-top: 70px;
             }
+
+            .palne-img-area {
+                display: none;
+            }
+
+            .banner-main {
+                display: none;
+            }
         }
     </style>
 
@@ -1609,37 +1639,13 @@
     <header>
         <!-- header inner -->
         <div class="header">
-            <div class="header_white_section">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="header_information">
-                                <ul>
-                                    <li><img loading="lazy"
-                                            src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/1a.webp"
-                                            alt="#" /> 145.street road
-                                        new York
-                                    </li>
-                                    <li><img loading="lazy"
-                                            src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/2a.webp"
-                                            alt="#" /> +71 5678954378
-                                    </li>
-                                    <li><img loading="lazy"
-                                            src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/3a.webp"
-                                            alt="#" /> Demo@hmail.com
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="container">
                 <div class="row">
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
                         <div class="full">
                             <div class="center-desk">
-                                <div class="logo"> <a href="index.html"><img rel="preload" {{-- src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/logo.webp" --}}
+                                <div class="logo"> <a href="index.html"><img rel="preload"
+                                            src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/logo.webp"
                                             alt="#" /></a>
                                 </div>
                             </div>
@@ -1687,8 +1693,14 @@
             </div>
         </div>
     </header>
-    <section style="margin-bottom: 30px;">
+    <section class="banner">
         <div class="banner-main">
+            <img loading="lazy" class="banner"
+                src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/banner.webp" alt="#"
+                fetchpriority="high" />
+            <div class="banner-content">
+                <h1 class="banner-item">Lam Vien Project</h1>
+            </div>
         </div>
     </section>
     <!-- about -->
@@ -1725,6 +1737,9 @@
                                     need to
                                     be sure there</span></p>
                             <div class="palne-img-area">
+                                <img loading="lazy"
+                                    src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/plane-img.webp"
+                                    class="animated hidden" alt="images" />
                             </div>
                         </div>
                     </div>
@@ -1922,46 +1937,6 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
-            loadBannerImages();
-
-            function loadBannerImages() {
-                let bannerMain = document.querySelector(".banner-main");
-                let planeImage = document.querySelector(".palne-img-area");
-
-                if (window.innerWidth > 768) {
-                    bannerMain.style.display = "";
-                    planeImage.style.display = "";
-
-                    if (bannerMain && bannerMain.children.length === 0) {
-                        bannerMain.innerHTML = `
-                    <img rel="preload" class="banner"
-                        src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/banner.webp"
-                        alt="#" fetchpriority="high" />
-                    <img rel="preload" class="cloud"
-                        src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/cloud.webp"
-                        alt="Cloud" fetchpriority="high" />
-                    <div class="banner-content">
-                        <h1 class="banner-item">Lam Vien Project</h1>
-                    </div>
-                `;
-                        if (planeImage && planeImage.children.length === 0) {
-                            planeImage.innerHTML = `
-                   <img rel="preload"
-                    src="https://pub-4bc7788b719d46428d0bed912c1512f0.r2.dev/webps/plane-img.webp"
-                    class="animate__animated hidden" alt="images" fetchpriority="high" />
-                 `;
-                        }
-                    }
-                } else {
-
-                    bannerMain.innerHTML = "";
-                    bannerMain.style.display = "none";
-
-                    planeImage.innerHTML = "";
-                    planeImage.style.display = "none";
-                }
-            }
-
             function animateOnScroll() {
 
                 // Get the current scroll position
@@ -2080,7 +2055,6 @@
             window.addEventListener("load", () => {
 
                 itemsPerPage = getItemsPerPage();
-                console.log(window.devicePixelRatio, window.innerWidth, itemsPerPage);
                 initCarousel();
             });
 
