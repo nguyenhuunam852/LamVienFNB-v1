@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
-Route::get('san-pham', function () {
-    return Inertia::render('Welcome');
-})->name('home');
+Route::get('san-pham', ProductController::class)->name('product');
 
 Route::get('/', function () {
     return view('welcome');
