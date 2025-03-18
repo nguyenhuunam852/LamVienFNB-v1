@@ -1,52 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <!-- basic -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-    <title>Lam Vien FNB</title>
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    {{-- @vite(['resources/css/app.css'])
-    @vite(['resources/js/app.ts']) --}}
-
-    @routes
-
-    @if (request()->is('*san-pham*'))
-        {{-- <link rel="stylesheet" href="{{ env('CDN_URL') }}/css/animate.css"> --}}
-        @vite(['resources/css/app.css'])
-        @vite(['resources/js/app.ts'])
-    @elseif (isset($page) || request()->inertia())
-        @vite(['resources/css/app.css'])
-        @vite(['resources/js/app.ts'])
-        @inertiaHead
-    @else
-        <link rel="stylesheet" href="{{ env('CDN_URL') }}/css/animate.css">
-        <link rel="stylesheet" href="{{ env('CDN_URL') }}/css/bootstrap.css">
-        <link rel="stylesheet" href="{{ env('CDN_URL') }}/css/layout.css">
-
-        @stack('styles')
-    @endif
-</head>
-<!-- body -->
-
-<body class="main-layout">
-
-    {{-- @include('layouts.header') --}}
-
-    @if (request()->is('*san-pham*'))
-        @include('layouts.header')
-        @yield('content')
-        @stack('scripts')
-    @elseif (isset($page) || request()->inertia())
-        @inertia
-    @else
         <header>
             <!-- header inner -->
             <div class="header">
@@ -120,12 +71,3 @@
                 </div>
             </div>
         </header>
-
-        @yield('content')
-        @stack('scripts')
-    @endif
-
-    @include('layouts.footer')
-</body>
-
-</html>

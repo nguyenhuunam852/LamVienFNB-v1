@@ -5,17 +5,17 @@ import tailwindcss from 'tailwindcss';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import inject from "@rollup/plugin-inject";
-import WindiCSS from 'vite-plugin-windicss';
 
 export default defineConfig({
     plugins: [
-        WindiCSS(),
         inject({
                      $: 'jquery',
                      jQuery: 'jquery',
                    }),
         laravel([
             'resources/css/admin.css',
+            'resources/css/app.css',
+            'resources/css/landing.css',
             'resources/js/app.ts',
         ]),
         vue({

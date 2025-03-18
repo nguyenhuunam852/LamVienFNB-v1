@@ -1,89 +1,11 @@
 <template>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div> <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
+    <div class="bg-white dark:bg-gray-900">
+        abc</div>
+</template>
 
-     <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
+<style scoped src="@/../css/tailwind.css"></style>
 
-     <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-
-     <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-    <div>
-      <h1>Hello from Vue!</h1>
-    </div>
-
-  </template>
-
-  <style>
+  <style scoped>
 html, body {
     height: 100%;
 }

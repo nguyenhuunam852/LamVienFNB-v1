@@ -9,6 +9,6 @@ class ProductController extends Controller
 {
     public function __invoke()
     {
-        return Inertia::render('Products');
+        return View('product');
     }
 }
