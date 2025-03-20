@@ -43,7 +43,7 @@ jobs:
       - name: Clean ReactJS precache-manifest and logs
         uses: StephanThierry/ftp-delete-action@v2.1
         with:
-          host: ${{ secrets.FTP_SERVER }}
+          host: ${{ secrets.FTP_HOST }}
           user: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           remoteFiles: "composer.json;composer.lock"
