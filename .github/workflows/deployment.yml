@@ -163,14 +163,4 @@ jobs:
           "
 
       - name: 🔥 Trigger extract.php
-        run: curl "https://${{ secrets.FTP_HOST }}/extract.php"
-
-      - name: Clean extract.php
-        uses: StephanThierry/ftp-delete-action@v2.1
-        with:
-          host: ${{ secrets.FTP_HOST }}
-          user: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          remoteFiles: "/public_html/extract.php"
-          workingDir: ""
-          ignoreSSL: "1"
+        run: curl "https://firebrick-octopus-777457.hostingersite.com/extract.php"
