@@ -145,6 +145,13 @@ jobs:
               }
 
               copyFolder('../laravel/public', './');
+              copyFolder('../laravel/views', './resources/views');
+
+              $destination = 'bootstrap/cache'
+              if (!file_exists($destination)) {
+                      mkdir($destination, 0777, true);
+              }
+
               echo "✅ Public folder copied to public_html!<br>";
 
               unlink($zipFile);
