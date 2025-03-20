@@ -39,6 +39,41 @@ jobs:
           mkdir -p laravel_temp
           rsync -av --exclude=".env" --exclude="bootstrap/cache" \
             app bootstrap config database public resources/views routes storage vendor artisan composer.json composer.lock laravel_temp/
+          zip -r laravel_temp.zip laravel_temp
+
+      - name: Create extract.php
+        run: |
+          cat << 'EOF' > laravel_temp/extract.php
+          <?php
+          $zip = new ZipArchive;
+          $file = '../laravel_temp.zip';
+          if ($zip->open($file) === TRUE) {
+              $zip->extractTo('../laravel');
+              $zip->close();
+              // Copy the public folder instead of moving it
+              function copyFolder($source, $destination) {
+                  $dir = opendir($source);
+                  @mkdir($destination);
+                  while(($file = readdir($dir)) !== false) {
+                      if ($file != '.' && $file != '..') {
+                          if (is_dir($source . '/' . $file)) {
+                              copyFolder($source . '/' . $file, $destination . '/' . $file);
+                          } else {
+                              copy($source . '/' . $file, $destination . '/' . $file);
+                          }
+                      }
+                  }
+                  closedir($dir);
+              }
+              copyFolder('../laravel/public', './public_html');
+              unlink($file);
+              unlink('extract.php');
+              echo 'Extraction and copying complete!';
+          } else {
+              echo 'Failed to extract!';
+          }
+          ?>
+          EOF
 
       - name: 📡 Install lftp
         run: sudo apt-get update && sudo apt-get install -y lftp
@@ -88,7 +123,7 @@ jobs:
           workingDir: "/domains/firebrick-octopus-777457.hostingersite.com/laravel"
           ignoreSSL: "1"
 
-      - name: 🚀 Upload to Laravel_temp
+      - name: 🚀 Upload Laravel_temp and extract.php
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -98,15 +133,22 @@ jobs:
           set ssl:verify-certificate no
           open -u '$FTP_USERNAME','$FTP_PASSWORD' '$FTP_HOST'
           set ftp:sync-mode off
-          set cmd:parallel 500
           set net:timeout 10
           set net:max-retries 2
-          mirror -R --parallel=10 --delete --verbose ./laravel_temp /domains/firebrick-octopus-777457.hostingersite.com/laravel
+          put -O /domains/firebrick-octopus-777457.hostingersite.com/public_html extract.php
+          put -O /domains/firebrick-octopus-777457.hostingersite.com laravel_temp.zip
           bye
           "
 
-      # - name: Copy `public` to `public_html`
-      #   run: |
-      #     curl --ftp-ssl -k --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" -Q "RMD public_html" ftp://${{ secrets.FTP_HOST }}/
-      #     curl --ftp-ssl -k --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" -Q "MKD public_html" ftp://${{ secrets.FTP_HOST }}/
-      #     curl -T /domains/firebrick-octopus-777457.hostingersite.com/laravel/public/* ftp://${{ secrets.FTP_HOST }}/public_html/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}
+      - name: 🔥 Trigger extract.php
+        run: curl "https://${{ secrets.FTP_HOST }}/extract.php"
+
+      - name: Clean extract.php
+        uses: StephanThierry/ftp-delete-action@v2.1
+        with:
+          host: ${{ secrets.FTP_HOST }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          remoteFiles: "/public_html/extract.php"
+          workingDir: ""
+          ignoreSSL: "1"
