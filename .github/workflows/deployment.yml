@@ -1,0 +1,75 @@
+name: Deploy Laravel Inertia as ZIP via FTP
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  deploy:
+    name: Deploy Laravel ZIP via FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'  # Adjust as needed
+
+      - name: Install Composer Dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install JavaScript Dependencies
+        run: npm install
+
+      - name: Build Frontend Assets
+        run: npm run build
+
+      - name: Create ZIP File
+        run: |
+          timestamp=$(date +"%Y%m%d%H%M%S")
+          zipFile="laravel_project_$timestamp.zip"
+          mkdir laravel_temp
+
+          # Copy necessary files
+          cp -r app bootstrap config database public resources/views routes storage vendor laravel_temp/
+          cp artisan composer.json composer.lock laravel_temp/
+
+          # Exclude bootstrap/cache
+          rm -rf laravel_temp/bootstrap/cache
+
+          # Create ZIP
+          zip -r $zipFile laravel_temp
+
+          # Store ZIP filename for later use
+          echo "ZIP_FILE=$zipFile" >> $GITHUB_ENV
+
+      - name: Upload ZIP to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /domains/firebrick-octopus-777457.hostingersite.com/ # Change this to match your server path
+          exclude: |
+            **/.git*
+            **/node_modules/**
+            **/storage/**
+            **/vendor/**
+
+      - name: Deploy ZIP File
+        run: |
+          curl -T ${{ env.ZIP_FILE }} ftp://${{ secrets.FTP_HOST }}/domains/firebrick-octopus-777457.hostingersite.com/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}
+
+      - name: (Optional) Extract ZIP on Server
+        run: |
+          echo "You may need to manually extract the ZIP file on your server."
