@@ -41,36 +41,103 @@ jobs:
             app bootstrap config database public resources/views routes storage vendor artisan composer.json composer.lock laravel_temp/
           zip -r laravel_temp.zip laravel_temp
 
+      - name: Create delete.php
+        run: |
+          cat << 'EOF' > laravel_temp/delete.php
+          <?php
+          $folder = '../laravel';
+
+          function deleteFolder($folder) {
+              if (!is_dir($folder)) {
+                  echo "❌ Error: Folder not found!";
+                  exit;
+              }
+
+              $files = array_diff(scandir($folder), array('.', '..', '.env'));
+
+              foreach ($files as $file) {
+                  $filePath = "$folder/$file";
+                  if (is_dir($filePath)) {
+                      deleteFolder($filePath);
+                      rmdir($filePath);
+                  } else {
+                      unlink($filePath);
+                  }
+              }
+          }
+
+          deleteFolder($folder);
+          echo "✅ Laravel folder cleaned (except .env)!";
+
+          if (!unlink(__FILE__)) {
+              echo "⚠️ Warning: Failed to delete delete.php!";
+          }
+          ?>
+          EOF
+
+      - name: 🚀 Upload Laravel_temp and extract.php
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -c "
+          set ssl:verify-certificate no
+          open -u '$FTP_USERNAME','$FTP_PASSWORD' '$FTP_HOST'
+          set ftp:sync-mode off
+          set net:timeout 10
+          set net:max-retries 2
+          put -O /domains/firebrick-octopus-777457.hostingersite.com/public_html delete.php
+          bye
+          "
+
+      - name: 🔥 Trigger extract.php
+        run: curl "https://${{ secrets.FTP_HOST }}/delete.php"
+
       - name: Create extract.php
         run: |
           cat << 'EOF' > laravel_temp/extract.php
           <?php
+          $zipFile = '../laravel_temp.zip';
+          $extractPath = '../laravel';
+
+          if (!file_exists($zipFile)) {
+              die("❌ Error: Zip file not found!");
+          }
+
           $zip = new ZipArchive;
-          $file = '../laravel_temp.zip';
-          if ($zip->open($file) === TRUE) {
-              $zip->extractTo('../laravel');
+          if ($zip->open($zipFile) === TRUE) {
+              $zip->extractTo($extractPath);
               $zip->close();
-              // Copy the public folder instead of moving it
+              echo "✅ Extraction complete!<br>";
+
               function copyFolder($source, $destination) {
-                  $dir = opendir($source);
-                  @mkdir($destination);
-                  while(($file = readdir($dir)) !== false) {
-                      if ($file != '.' && $file != '..') {
-                          if (is_dir($source . '/' . $file)) {
-                              copyFolder($source . '/' . $file, $destination . '/' . $file);
+                  if (!file_exists($destination)) {
+                      mkdir($destination, 0777, true);
+                  }
+
+                  foreach (scandir($source) as $file) {
+                      if ($file !== '.' && $file !== '..') {
+                          $srcFile = "$source/$file";
+                          $destFile = "$destination/$file";
+                          if (is_dir($srcFile)) {
+                              copyFolder($srcFile, $destFile);
                           } else {
-                              copy($source . '/' . $file, $destination . '/' . $file);
+                              copy($srcFile, $destFile);
                           }
                       }
                   }
-                  closedir($dir);
               }
-              copyFolder('../laravel/public', './public_html');
-              unlink($file);
-              unlink('extract.php');
-              echo 'Extraction and copying complete!';
+
+              copyFolder('../laravel/public', '../public_html');
+              echo "✅ Public folder copied to public_html!<br>";
+
+              unlink($zipFile);
+              unlink(__FILE__);
+
+              echo "✅ Cleanup complete!";
           } else {
-              echo 'Failed to extract!';
+              echo "❌ Error: Failed to extract zip file!";
           }
           ?>
           EOF
