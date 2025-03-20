@@ -46,7 +46,7 @@ jobs:
 
       - name: Create delete.php
         run: |
-          cat << 'EOF' > laravel_temp/delete.php
+          cat << 'EOF' > delete.php
           <?php
           $folder = '../laravel';
 
@@ -78,7 +78,7 @@ jobs:
           ?>
           EOF
 
-      - name: 🚀 Upload Laravel_temp and extract.php
+      - name: 🚀 Upload Laravel_temp and delete.php
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
