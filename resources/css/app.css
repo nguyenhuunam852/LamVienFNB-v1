@@ -349,6 +349,14 @@
         @apply max-w-full h-[50%] rounded-[10px] w-[100%]
     }
 
+    .dot {
+        @apply w-[12px] h-[12px] m-[5px] inline-block bg-[#bbb] rounded-[50%] cursor-pointer
+    }
+
+    .dot.active {
+        @apply bg-[#333]
+    }
+
     @media (min-width: 768px) {
         .section-2 .item {
             min-width: calc((100% / 3) - 20px);

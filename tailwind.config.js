@@ -50,6 +50,15 @@ export default {
                 'max-767': {
                     'max': '767px'
                 },
+                'min-992': {
+                    'min': '992px'
+                },
+                'max-991': {
+                    'max': '991px'
+                },
+                'min-1200': {
+                    'min': '1200px'
+                },
                 'max-1199': {
                     'max': '1199px'
                 },

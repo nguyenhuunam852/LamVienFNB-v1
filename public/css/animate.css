@@ -49,11 +49,10 @@
     -webkit-animation-fill-mode: both
 }
 
-.hidden {
+.animateHidden {
     opacity: 0;
     transition: opacity 0.5s ease-out;
     pointer-events: none;
-    /* Optional: prevents interaction when hidden */
 }
 
 .visible {
