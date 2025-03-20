@@ -38,7 +38,7 @@ jobs:
         run: |
           mkdir -p laravel_temp
           rsync -av --exclude=".env" --exclude="bootstrap/cache" \
-            app bootstrap config database public resources/views routes storage vendor artisan composer.json composer.lock
+            app bootstrap config database public resources/views routes storage vendor artisan composer.json composer.lock laravel_temp/
 
       - name: Clean ReactJS precache-manifest and logs
         uses: StephanThierry/ftp-delete-action@v2.1
