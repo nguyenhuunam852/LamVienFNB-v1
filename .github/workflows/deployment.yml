@@ -42,7 +42,7 @@ jobs:
 
       - name: Delete Old Files (Except `.env`)
         run: |
-          curl --ftp-ssl -k --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" ftp://147.93.78.112/ <<EOF
+          curl --ftp-ssl -k --user "u275604042:6V2&zJejH$Iy4jzc" ftp://147.93.78.112/ <<EOF
           cd /domains/firebrick-octopus-777457.hostingersite.com/laravel
           rm -rf !(".env")
           rm -rf app bootstrap config database public resources routes storage vendor
