@@ -40,6 +40,9 @@ jobs:
           rsync -av --exclude=".env" --exclude="bootstrap/cache" \
             app bootstrap config database public resources/views routes storage vendor artisan composer.json composer.lock laravel_temp/
 
+      - name: 📡 Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
       - name: 🚀 Connect to FTP & Delete Files
         run: |
           lftp -e "
