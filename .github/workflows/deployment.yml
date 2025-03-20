@@ -53,24 +53,25 @@ jobs:
           # Store ZIP filename for later use
           echo "ZIP_FILE=$zipFile" >> $GITHUB_ENV
 
-      - name: Upload ZIP to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: 147.93.78.112
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
-          server-dir: /domains/firebrick-octopus-777457.hostingersite.com/ # Change this to match your server path
+          server-dir: /domains/firebrick-octopus-777457.hostingersite.com/laravel/
           exclude: |
+            .git*
+            .github*
             **/.git*
-            **/node_modules/**
-            **/storage/**
-            **/vendor/**
+            **/node_modules/*
+            **/storage/logs/*
+            .env
+            bootstrap/cache/*
 
-      - name: Deploy ZIP File
+      - name: Copy `public` to `public_html`
         run: |
-          curl -T ${{ env.ZIP_FILE }} ftp://${{ secrets.FTP_HOST }}/domains/firebrick-octopus-777457.hostingersite.com/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}
-
-      - name: (Optional) Extract ZIP on Server
-        run: |
-          echo "You may need to manually extract the ZIP file on your server."
+          curl --ftp-ssl -k --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" -Q "RMD public_html" ftp://147.93.78.112/
+          curl --ftp-ssl -k --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" -Q "MKD public_html" ftp://147.93.78.112/
+          curl -T public/* ftp://${{ secrets.FTP_HOST }}/public_html/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}
