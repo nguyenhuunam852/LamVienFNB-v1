@@ -53,7 +53,7 @@ jobs:
           echo "ZIP_FILE=$zipFile" >> $GITHUB_ENV
 
       - name: Upload ZIP to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
