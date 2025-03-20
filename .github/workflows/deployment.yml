@@ -45,12 +45,13 @@ jobs:
 
       - name: 🚀 Connect to FTP & Delete Files
         run: |
-          lftp -c "
-          open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' '${{ secrets.FTP_HOST }}'
-          cd /laravel/vendor
-          mdelete *
-          bye
-          "
+           lftp -c "
+           set ssl:verify-certificate no
+           open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' '${{ secrets.FTP_HOST }}'
+           cd /public_html/laravel
+           rm -rf *
+           mirror -R ./laravel_temp /public_html/laravel
+           bye"
 
       - name: Clean Old Laravel Folder
         uses: StephanThierry/ftp-delete-action@v2.1
