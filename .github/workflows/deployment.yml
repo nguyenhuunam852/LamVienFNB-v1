@@ -53,7 +53,7 @@ jobs:
           set ssl:verify-certificate no
           open -u '$FTP_USERNAME','$FTP_PASSWORD' '$FTP_HOST'
           set ftp:sync-mode off
-          set cmd:parallel 5
+          set cmd:parallel 50
           set net:timeout 10
           set net:max-retries 2
           rm -rf /domains/firebrick-octopus-777457.hostingersite.com/laravel/vendor || echo 'vendor folder not found, skipping...'
