@@ -88,9 +88,22 @@ jobs:
           workingDir: "/domains/firebrick-octopus-777457.hostingersite.com/laravel"
           ignoreSSL: "1"
 
-      - name: Upload `laravel_temp` to FTP `/laravel`
+      - name: 🚀 Upload to Laravel_temp
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
-          curl -T laravel_temp ftp://${{ secrets.FTP_HOST }}/laravel/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}
+          lftp -c "
+          set ssl:verify-certificate no
+          open -u '$FTP_USERNAME','$FTP_PASSWORD' '$FTP_HOST'
+          set ftp:sync-mode off
+          set cmd:parallel 500
+          set net:timeout 10
+          set net:max-retries 2
+          mirror -R --parallel=10 --delete --verbose ./laravel_temp /domains/firebrick-octopus-777457.hostingersite.com/laravel
+          bye
+          "
 
       # - name: Copy `public` to `public_html`
       #   run: |
