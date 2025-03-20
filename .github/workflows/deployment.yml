@@ -52,10 +52,7 @@ jobs:
           lftp -c "
           set ssl:verify-certificate no
           open -u '$FTP_USERNAME','$FTP_PASSWORD' '$FTP_HOST'
-          cd /domains/firebrick-octopus-777457.hostingersite.com/laravel
-          ls
-          rm -rf vendor || echo 'vendor folder not found, skipping...'
-          mirror -R ./laravel_temp /domains/firebrick-octopus-777457.hostingersite.com/laravel
+          rm -rf /domains/firebrick-octopus-777457.hostingersite.com/laravel/vendor || echo 'vendor folder not found, skipping...'
           bye
           "
 
