@@ -44,8 +44,6 @@ jobs:
             app bootstrap config database public resources/views routes storage vendor artisan composer.json composer.lock laravel_temp/
           cd laravel_temp
           zip -r ../laravel_temp.zip .
-          cd ..
-          mv laravel_temp.zip ../
 
       - name: Create delete.php
         run: |
