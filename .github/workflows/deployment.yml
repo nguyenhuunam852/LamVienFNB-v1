@@ -44,12 +44,20 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y lftp
 
       - name: 🚀 Connect to FTP & Delete Files
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
-           lftp -c '
-           set ssl:verify-certificate no
-           open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' '${{ secrets.FTP_HOST }}'
-           rm -rf /domains/firebrick-octopus-777457.hostingersite.com/laravel/vendor
-           bye'
+          lftp -c "
+          set ssl:verify-certificate no
+          open -u '$FTP_USERNAME','$FTP_PASSWORD' '$FTP_HOST'
+          cd /domains/firebrick-octopus-777457.hostingersite.com/laravel
+          ls
+          rm -rf vendor || echo 'vendor folder not found, skipping...'
+          mirror -R ./laravel_temp /domains/firebrick-octopus-777457.hostingersite.com/laravel
+          bye
+          "
 
       - name: Clean Old Laravel Folder
         uses: StephanThierry/ftp-delete-action@v2.1
