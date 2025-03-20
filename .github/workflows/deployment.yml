@@ -94,12 +94,12 @@ jobs:
           bye
           "
 
-      - name: 🔥 Trigger extract.php
-        run: curl "https://${{ secrets.FTP_HOST }}/delete.php"
+      - name: 🔥 Trigger delete.php
+        run: curl "https://firebrick-octopus-777457.hostingersite.com/delete.php"
 
       - name: Create extract.php
         run: |
-          cat << 'EOF' > laravel_temp/extract.php
+          cat << 'EOF' > extract.php
           <?php
           $zipFile = '../laravel_temp.zip';
           $extractPath = '../laravel';
@@ -144,51 +144,6 @@ jobs:
           }
           ?>
           EOF
-
-      - name: 🚀 Connect to FTP & Delete vendor
-        env:
-          FTP_HOST: ${{ secrets.FTP_HOST }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        run: |
-          lftp -c "
-          set ssl:verify-certificate no
-          open -u '$FTP_USERNAME','$FTP_PASSWORD' '$FTP_HOST'
-          set ftp:sync-mode off
-          set cmd:parallel 500
-          set net:timeout 10
-          set net:max-retries 2
-          rm -rf /domains/firebrick-octopus-777457.hostingersite.com/laravel/vendor || echo 'vendor folder not found, skipping...'
-          bye
-          "
-
-      - name: 🚀 Connect to FTP & Delete Laravel_temp
-        env:
-          FTP_HOST: ${{ secrets.FTP_HOST }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        run: |
-          lftp -c "
-          set ssl:verify-certificate no
-          open -u '$FTP_USERNAME','$FTP_PASSWORD' '$FTP_HOST'
-          set ftp:sync-mode off
-          set cmd:parallel 500
-          set net:timeout 10
-          set net:max-retries 2
-          rm -rf /domains/firebrick-octopus-777457.hostingersite.com/laravel/laravel_temp || echo 'vendor folder not found, skipping...'
-          bye
-          "
-
-      - name: Clean Old Laravel Folder
-        uses: StephanThierry/ftp-delete-action@v2.1
-        with:
-          host: ${{ secrets.FTP_HOST }}
-          user: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          remoteFiles: "composer.json;composer.lock;artisan"
-          remoteDirectories: "app;bootstrap;config;database;public;resources;routes;storage"
-          workingDir: "/domains/firebrick-octopus-777457.hostingersite.com/laravel"
-          ignoreSSL: "1"
 
       - name: 🚀 Upload Laravel_temp and extract.php
         env:
