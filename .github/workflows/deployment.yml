@@ -40,20 +40,20 @@ jobs:
           rsync -av --exclude=".env" --exclude="bootstrap/cache" \
             app bootstrap config database public resources/views routes storage vendor artisan composer.json composer.lock laravel_temp/
 
-      - name: Clean ReactJS precache-manifest and logs
+      - name: Clean Old Laravel Folder
         uses: StephanThierry/ftp-delete-action@v2.1
         with:
           host: ${{ secrets.FTP_HOST }}
           user: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          remoteFiles: "composer.json;composer.lock"
-          remoteDirectories: "app;bootstrap;config;database;public;resources/views;routes;storage;vendor;artisan"
+          remoteFiles: "composer.json;composer.lock;artisan"
+          remoteDirectories: ";vendor;app;bootstrap;config;database;public;resources;routes;storage;laravel_temp"
           workingDir: "/domains/firebrick-octopus-777457.hostingersite.com/laravel"
           ignoreSSL: "1"
 
-      # - name: Upload `laravel_temp` to FTP `/laravel`
-      #   run: |
-      #     curl -T laravel_temp ftp://${{ secrets.FTP_HOST }}/laravel/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}
+      - name: Upload `laravel_temp` to FTP `/laravel`
+        run: |
+          curl -T laravel_temp ftp://${{ secrets.FTP_HOST }}/laravel/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}
 
       # - name: Copy `public` to `public_html`
       #   run: |
