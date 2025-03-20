@@ -34,44 +34,27 @@ jobs:
       - name: Build Frontend Assets
         run: npm run build
 
-      - name: Create ZIP File
+      - name: Prepare `laravel_temp` Folder
         run: |
-          timestamp=$(date +"%Y%m%d%H%M%S")
-          zipFile="laravel_project_$timestamp.zip"
-          mkdir laravel_temp
+          mkdir -p laravel_temp
+          rsync -av --exclude=".env" --exclude="bootstrap/cache" \
+            app bootstrap config database public resources/views routes storage vendor artisan composer.json composer.lock laravel_temp/
 
-          # Copy necessary files
-          cp -r app bootstrap config database public resources/views routes storage vendor laravel_temp/
-          cp artisan composer.json composer.lock laravel_temp/
+      - name: Delete Old Files (Except `.env`)
+        run: |
+          curl --ftp-ssl -k --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" ftp://${{ secrets.FTP_HOST }}/ <<EOF
+          cd /domains/firebrick-octopus-777457.hostingersite.com/laravel
+          rm -rf !(".env")
+          rm -rf app bootstrap config database public resources routes storage vendor
+          quit
+          EOF
 
-          # Exclude bootstrap/cache
-          rm -rf laravel_temp/bootstrap/cache
-
-          # Create ZIP
-          zip -r $zipFile laravel_temp
-
-          # Store ZIP filename for later use
-          echo "ZIP_FILE=$zipFile" >> $GITHUB_ENV
-
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.3.0
-        with:
-          server: 147.93.78.112
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: /domains/firebrick-octopus-777457.hostingersite.com/laravel/
-          exclude: |
-            .git*
-            .github*
-            **/.git*
-            **/node_modules/*
-            **/storage/logs/*
-            .env
-            bootstrap/cache/*
+      - name: Upload `laravel_temp` to FTP `/laravel`
+        run: |
+          curl -T laravel_temp ftp://${{ secrets.FTP_HOST }}/laravel/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}
 
       - name: Copy `public` to `public_html`
         run: |
-          curl --ftp-ssl -k --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" -Q "RMD public_html" ftp://147.93.78.112/
-          curl --ftp-ssl -k --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" -Q "MKD public_html" ftp://147.93.78.112/
-          curl -T public/* ftp://${{ secrets.FTP_HOST }}/public_html/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}
+          curl --ftp-ssl -k --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" -Q "RMD public_html" ftp://${{ secrets.FTP_HOST }}/
+          curl --ftp-ssl -k --user "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" -Q "MKD public_html" ftp://${{ secrets.FTP_HOST }}/
+          curl -T /domains/firebrick-octopus-777457.hostingersite.com/laravel/public/* ftp://${{ secrets.FTP_HOST }}/public_html/ --user ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}
