@@ -34,6 +34,9 @@ jobs:
       - name: Build Frontend Assets
         run: npm run build
 
+      - name: 📡 Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
       - name: Prepare `laravel_temp` Folder
         run: |
           mkdir -p laravel_temp
@@ -141,9 +144,6 @@ jobs:
           }
           ?>
           EOF
-
-      - name: 📡 Install lftp
-        run: sudo apt-get update && sudo apt-get install -y lftp
 
       - name: 🚀 Connect to FTP & Delete vendor
         env:
