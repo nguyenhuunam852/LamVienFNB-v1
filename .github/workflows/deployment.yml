@@ -48,9 +48,8 @@ jobs:
            lftp -c "
            set ssl:verify-certificate no
            open -u '${{ secrets.FTP_USERNAME }}','${{ secrets.FTP_PASSWORD }}' '${{ secrets.FTP_HOST }}'
-           cd /public_html/laravel
+           cd /domains/firebrick-octopus-777457.hostingersite.com/laravel/vendor
            rm -rf *
-           mirror -R ./laravel_temp /public_html/laravel
            bye"
 
       - name: Clean Old Laravel Folder
