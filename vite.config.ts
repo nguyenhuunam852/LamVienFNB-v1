@@ -13,6 +13,7 @@ export default defineConfig({
                      jQuery: 'jquery',
                    }),
         laravel([
+            'resources/css/admin.css',
             'resources/css/app.css',
             'resources/css/landing.css',
             'resources/js/app.ts',

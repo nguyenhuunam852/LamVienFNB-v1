@@ -2,10 +2,7 @@
 export default {
     darkMode: ['class'],
     content: [
-        // './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        // './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
-        // './resources/js/**/*.{vue,js,ts,jsx,tsx}',
+        './resources/views/**/*.blade.php'
     ],
     theme: {
         extend: {
@@ -62,9 +59,6 @@ export default {
                 'max-1199': {
                     'max': '1199px'
                 },
-                // 'min-1536': {
-                //     'min': '1536px'
-                // },
                 'off-set-1': { min: '576px', max: '767px' },
                 'off-set-2': { min: '767px', max: '991px' },
                 'off-set-3': { min: '992px', max: '1199px' },

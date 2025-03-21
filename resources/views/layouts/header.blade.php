@@ -13,14 +13,14 @@
                             <div class="absolute top-0 left-[-41px] w-[41px] h-[50px] block content-['']"></div>
                             <ul class="inline-block">
                                 <li class="inline-block items-center px-[10px] pr-[60px]">
-                                    <img src="images/1.png" alt="Image" class="pr-[10px] inline"> 145.street road new
+                                    <img src="webps/1a.webp" alt="Image" class="pr-[10px] inline"> 145.street road new
                                     York
                                 </li>
                                 <li class="inline-block items-center px-[10px] pr-[60px]">
-                                    <img src="images/2.png" alt="Image" class="pr-[10px] inline"> +71 5678954378
+                                    <img src="webps/2a.webp" alt="Image" class="pr-[10px] inline"> +71 5678954378
                                 </li>
                                 <li class="inline-block items-center px-[10px] pr-[60px]">
-                                    <img src="images/3.png" alt="Image" class="pr-[10px] inline"> Demo@hmail.com
+                                    <img src="webps/3a.webp" alt="Image" class="pr-[10px] inline"> Demo@hmail.com
                                 </li>
                             </ul>
                         </div>

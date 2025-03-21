@@ -4,9 +4,9 @@ import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
-// import AppLayout from '@/layouts/AppLayout.vue'
-
 import $ from 'jquery';
+import AppLayout from './layouts/AppLayout.vue';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 declare global {
     interface Window {
@@ -23,11 +23,11 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
-        resolvePageComponent(`./pages/${name}.vue`, import.meta.glob<DefineComponent>('./pages/**/*.vue')),
-    // .then((page) => {
-    //     page.default.layout = page.default.layout || AppLayout;
-    //     return page;
-    // }),
+        resolvePageComponent(`./pages/${name}.vue`, import.meta.glob<DefineComponent>('./pages/**/*.vue'))
+    .then((page) => {
+        page.default.layout = page.default.layout || AppLayout;
+        return page;
+    }),
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)

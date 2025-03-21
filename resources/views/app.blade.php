@@ -13,31 +13,35 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link rel="stylesheet" href="{{ env('CDN_URL') }}/css/animate.css">
-    @vite(['resources/css/app.css'])
-    @stack('styles')
     @routes
 
-    @if (isset($page) || request()->inertia())
-        @vite(['resources/css/app.css'])
+    @if (request()->is('admin*') || isset($page) || request()->inertia())
+        @vite(['resources/css/admin.css'])
         @vite(['resources/js/app.ts'])
         @inertiaHead
     @else
+        <link rel="stylesheet" href="{{ env('CDN_URL') }}/css/animate.css">
+        @vite(['resources/css/app.css'])
+        @stack('styles')
     @endif
 </head>
 
-<body class="main-layout">
-
-    @include('layouts.header')
+<body @class([
+    '' => request()->is('admin*'),
+    'main-layout' => !request()->is('admin*')
+])>
 
     @if (isset($page) || request()->inertia())
         @inertia
     @else
+        @include('layouts.header')
+
         @yield('content')
         @stack('scripts')
+
+        @include('layouts.footer')
     @endif
 
-    @include('layouts.footer')
 </body>
 
 </html>

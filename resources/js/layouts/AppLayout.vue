@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppHeader from '@/components/custom/AppHeader.vue'
 import type { BreadcrumbItemType } from '@/types'
 
 interface Props {
@@ -11,5 +12,8 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <slot />
+    <div id="home">
+        <AppHeader />
+        <slot />
+    </div>
 </template>
