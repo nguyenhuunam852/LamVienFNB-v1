@@ -56,6 +56,9 @@ body {
 }
 
 @layer base {
+    p {
+        @apply mt-0 mb-[1rem]
+    }
 
     a {
         @apply transition-all duration-300 ease-in-out text-[#007bff] no-underline bg-transparent hover:no-underline hover:text-[#0056b3]
@@ -104,26 +107,144 @@ body {
         @apply mt-0 mb-[1rem]
     }
 
+    .col-12 {
+        @apply flex-none basis-full max-w-full;
+    }
+
+    b,strong {
+        font-weight: bolder
+    }
+
+    .col,
+    .col-1,
+    .col-10,
+    .col-11,
+    .col-2,
+    .col-3,
+    .col-4,
+    .col-5,
+    .col-6,
+    .col-7,
+    .col-8,
+    .col-9,
+    .col-auto,
+    .col-lg,
+    .col-lg-1,
+    .col-lg-10,
+    .col-lg-11,
+    .col-lg-12,
+    .col-lg-2,
+    .col-lg-3,
+    .col-lg-4,
+    .col-lg-5,
+    .col-lg-6,
+    .col-lg-7,
+    .col-lg-8,
+    .col-lg-9,
+    .col-lg-auto,
+    .col-md,
+    .col-md-1,
+    .col-md-10,
+    .col-md-11,
+    .col-md-12,
+    .col-md-2,
+    .col-md-3,
+    .col-md-4,
+    .col-md-5,
+    .col-md-6,
+    .col-md-7,
+    .col-md-8,
+    .col-md-9,
+    .col-md-auto,
+    .col-sm,
+    .col-sm-1,
+    .col-sm-10,
+    .col-sm-11,
+    .col-sm-12,
+    .col-sm-2,
+    .col-sm-3,
+    .col-sm-4,
+    .col-sm-5,
+    .col-sm-6,
+    .col-sm-7,
+    .col-sm-8,
+    .col-sm-9,
+    .col-sm-auto,
+    .col-xl,
+    .col-xl-1,
+    .col-xl-10,
+    .col-xl-11,
+    .col-xl-12,
+    .col-xl-2,
+    .col-xl-3,
+    .col-xl-4,
+    .col-xl-5,
+    .col-xl-6,
+    .col-xl-7,
+    .col-xl-8,
+    .col-xl-9,
+    .col-xl-auto {
+        @apply relative w-full min-h-[1px] px-[15px];
+    }
+
     button {
         border-radius: 0
     }
 
-    button,input,optgroup,select,textarea {
+    .mb-0,
+    .my-0 {
+        margin-bottom: 0 !important
+    }
+
+    .pr-4,
+    .px-4 {
+        padding-right: 1.5rem !important
+    }
+
+    .pl-4,
+    .px-4 {
+        padding-left: 1.5rem !important
+    }
+
+    .text-center {
+        text-align: center !important
+    }
+
+    .text-white {
+        color: #fff !important
+    }
+
+    .small,
+    small {
+        font-size: 80%;
+        font-weight: 400
+    }
+
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
         margin: 0;
         font-family: inherit;
         font-size: inherit;
         line-height: inherit
     }
 
-    button,input {
+    button,
+    input {
         overflow: visible
     }
 
-    button,select {
+    button,
+    select {
         text-transform: none
     }
 
-    [type=reset], [type=submit], button, html [type=button] {
+    [type=reset],
+    [type=submit],
+    button,
+    html [type=button] {
         -webkit-appearance: button
     }
 
@@ -246,6 +367,21 @@ body {
         margin-right: auto !important
     }
 
+    .collapsing {
+        position: relative;
+        height: 0;
+        overflow: hidden;
+        transition: height .35s ease
+    }
+
+    .row {
+        @apply flex flex-wrap -mx-4;
+    }
+
+    .font-weight-light {
+        @apply font-light
+    }
+
     @media (min-width: 0px) {
         .container {
             max-width: none;
@@ -315,6 +451,12 @@ body {
         -ms-flex-align: center;
         align-items: center
     }
+
+    /* .navbar-collapse {
+        height: 0;
+        overflow: hidden;
+        transition: height 0.35s ease-in-out;
+    } */
 
     .navbar-nav .active>.nav-link,
     .navbar-nav .nav-link.active {

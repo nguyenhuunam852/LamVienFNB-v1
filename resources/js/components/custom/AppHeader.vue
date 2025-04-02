@@ -4,7 +4,8 @@ import NavBarItem from './NavBarItem.vue'
 import ResponsiveMenu from './ResponsiveMenu.vue'
 import type { NavItem } from '@/types'
 import { usePage } from '@inertiajs/vue3'
-import { computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import Collapse from '@/utils/collapse.js'
 
 const mainNavItems: NavItem[] = [
   {
@@ -66,11 +67,23 @@ const mainNavItems: NavItem[] = [
 const page = usePage()
 const isCurrentRoute = computed(() => (url: string) => page.url === url)
 
-console.log(page.url)
-
 const activeItemStyles = computed(
   () => (url: string) => (isCurrentRoute.value(url) ? 'active' : ''),
 )
+
+const collapseRef = ref<HTMLElement | null>(null)
+let collapseInstance: Collapse | null = null
+
+onMounted(() => {
+  if (collapseRef.value) {
+    collapseInstance = new Collapse(collapseRef.value)
+  }
+})
+
+const toggleCollapse = () => {
+  collapseInstance?.toggle()
+}
+
 </script>
 
 <template>
@@ -78,25 +91,30 @@ const activeItemStyles = computed(
         <div class="container h-100 relative max-1199:px-[15px]">
             <AppLogo class="navbar-brand flex items-center" href="/" />
 
-            <ResponsiveMenu/>
+            <ResponsiveMenu @click="toggleCollapse" />
 
-            <div class="navbar-collapse collapse show
-                min-1200:h-[100%]
-                max-1199:right-[15px]
-                max-1199:p-0
-                max-1199:shadow-[rgba(255,255,255,0.1)_0px_1px_1px_1px]
-                max-1199:absolute
-                max-1199:top-[72px]
-                max-1199:w-[200px]
-                max-1199:z-[1000]
-            ">
+            <div
+                ref="collapseRef"
+                :class="['navbar-collapse collapse',
+                'collapse-content',
+                'min-1200:h-[100%]',
+                'max-1199:right-[15px]',
+                'max-1199:p-0',
+                'max-1199:shadow-[rgba(255,255,255,0.1)_0px_1px_1px_1px]',
+                'max-1199:absolute',
+                'max-1199:top-[72px]',
+                'max-1199:w-[200px]',
+                'max-1199:z-[1000]',
+                'max-575:!top-[47px]',
+                ]">
                 <ul class="navbar-nav mx-auto h-100">
                     <NavBarItem v-for="(item, index) in mainNavItems" :key="index" :title="item.title" :icon="item.icon"
                         :href="item.href" :subItems="item.subItems" :active="activeItemStyles(item.href)" />
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a :class="['min-1200:!pl-[28px]', 'min-1200:!pr-[28px]', 'nav-link', 'd-block']" href=""> Admin, <b>Logout</b>
+                        <a :class="['min-1200:!pl-[28px]', 'min-1200:!pr-[28px]', 'nav-link', 'd-block']" href="">
+                            Admin, <b>Logout</b>
                         </a>
                     </li>
                 </ul>

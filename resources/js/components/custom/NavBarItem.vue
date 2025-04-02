@@ -20,19 +20,19 @@ const toggleDropdown = () => {
 </script>
 
 <template>
-    <li v-if="subItems.length === 0" class="text-center max-1199:mr-0 max-1350:mr-[1]">
+    <li v-if="subItems.length === 0" class="text-center max-1199:mr-0 max-1350:mr-[1px]">
         <a :class="['py-[15px]', 'px-[20px]', 'min-1200:!pl-[28px]', 'min-1200:!pr-[28px]','max-1199:p-[15px]','max-1199:flex-row', 'nav-link', active]"
             :href="href">
-            <li :class="[icon, 'inline-block', 'mb-[10px]', 'mr-0', 'text-[1.5rem]']" />
+            <li :class="[icon,'max-1199:text-[1rem]','max-1199:mr-[10px]','max-1199:mb-0', 'inline-block', 'mb-[10px]', 'mr-0', 'text-[1.5rem]']" />
             {{ title }}
             <span class="sr-only">(current)</span>
         </a>
     </li>
-    <li v-else class="text-center dropdown">
+    <li v-else class="text-center dropdown max-1199:mr-0 max-1350:mr-[1px]">
         <a @click="toggleDropdown"
-            :class="['py-[15px]', 'px-[20px]', 'min-1200:!pl-[28px]', 'min-1200:!pr-[28px]', 'nav-link', active]"
+            :class="['py-[15px]', 'px-[20px]', 'min-1200:!pl-[28px]', 'min-1200:!pr-[28px]','max-1199:p-[15px]','max-1199:flex-row', 'nav-link', active]"
             href="#">
-            <li :class="[icon, 'inline-block', 'mb-[10px]', 'mr-0', 'text-[1.5rem]']" />
+            <li :class="[icon,'max-1199:text-[1rem]','max-1199:mr-[10px]','max-1199:mb-0', 'inline-block', 'mb-[10px]', 'mr-0', 'text-[1.5rem]']" />
             <span> {{ title }} <i class="fas fa-angle-down" /></span>
         </a>
         <div :class="[
