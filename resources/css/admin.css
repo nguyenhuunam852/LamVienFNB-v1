@@ -25,7 +25,11 @@ body {
     background-color: #4e657a;
     overflow-x: hidden;
     margin: 0;
-    height: 500px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
 }
 
 *,
@@ -39,9 +43,9 @@ body {
     height: 8px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+/* ::-webkit-scrollbar-thumb:hover {
     background: #8ab5d6;
-}
+} */
 
 ::-webkit-scrollbar-track {
     background: #394f62;
@@ -56,6 +60,12 @@ body {
 }
 
 @layer base {
+
+    button,
+    input {
+        overflow: visible
+    }
+
     p {
         @apply mt-0 mb-[1rem]
     }
@@ -111,8 +121,20 @@ body {
         @apply flex-none basis-full max-w-full;
     }
 
-    b,strong {
+    b,
+    strong {
         font-weight: bolder
+    }
+
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit
     }
 
     .col,
@@ -220,6 +242,18 @@ body {
         font-weight: 400
     }
 
+    .form-element-reset {
+        @apply m-0;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+    button,
+    input {
+        overflow: visible
+    }
+
     button,
     input,
     optgroup,
@@ -246,6 +280,38 @@ body {
     button,
     html [type=button] {
         -webkit-appearance: button
+    }
+
+    [type=reset],
+    [type=submit],
+    button,
+    html [type=button] {
+        -webkit-appearance: button
+    }
+
+    label {
+        @apply inline-block mb-[.5rem]
+    }
+
+    .btn {
+        @apply inline-block font-normal text-center whitespace-nowrap align-middle select-none border border-transparent py-1.5 px-3 text-base leading-normal rounded transition duration-150 ease-in-out;
+    }
+
+    .btn-primary {
+        @apply text-white bg-[#007bff] border-[#007bff];
+    }
+
+    .btn-block {
+        display: block;
+        width: 100%
+    }
+
+    .text-uppercase {
+        text-transform: uppercase !important
+    }
+
+    .btn:not(:disabled):not(.disabled) {
+        cursor: pointer
     }
 
     .dropdown,
@@ -367,6 +433,26 @@ body {
         margin-right: auto !important
     }
 
+    .mt-2,
+    .my-2 {
+        margin-top: .5rem !important
+    }
+
+    .mt-3,
+    .my-3 {
+        margin-top: 1rem !important
+    }
+
+    .mt-4,
+    .my-4 {
+        margin-top: 1.5rem !important
+    }
+
+    .mb-4,
+    .my-4 {
+        margin-bottom: 1.5rem !important
+    }
+
     .collapsing {
         position: relative;
         height: 0;
@@ -382,6 +468,39 @@ body {
         @apply font-light
     }
 
+    .form-control:focus {
+        @apply text-[#495057] bg-[#fff] border-[#80bdff] outline-0 shadow-md
+    }
+
+    .form-control {
+        @apply block w-full h-[calc(2.25rem+2px)] py-1.5 px-3 text-base leading-normal text-[#495057] bg-white bg-clip-padding border border-[#ced4da] rounded transition-all duration-150 ease-in-out;
+    }
+
+    .tm-content-row {
+        @apply justify-between -mx-[20px];
+    }
+
+    .tm-block-col {
+        margin-bottom: 30px;
+    }
+
+    .table {
+        @apply w-full mb-4 bg-transparent;
+    }
+
+    .table {
+        @apply border-collapse;
+    }
+
+    .table thead th {
+        @apply align-bottom border-b-2 border-[#dee2e6];
+    }
+
+    .table td,
+    .table th {
+        @apply p-3 align-top border-t border-[#dee2e6];
+    }
+
     @media (min-width: 0px) {
         .container {
             max-width: none;
@@ -392,11 +511,19 @@ body {
         .container {
             @apply max-w-[540px]
         }
+
+        .col-sm-12 {
+            @apply flex-none basis-full max-w-full;
+        }
     }
 
     @media (min-width: 768px) {
         .container {
             @apply max-w-[720px];
+        }
+
+        .col-md-12 {
+            @apply flex-none basis-full max-w-full;
         }
     }
 
@@ -404,9 +531,21 @@ body {
         .container {
             @apply max-w-[960px];
         }
+
+        .col-lg-12 {
+            @apply flex-none basis-full max-w-full;
+        }
     }
 
     @media (min-width: 1200px) {
+        .container {
+            @apply max-w-[1140px];
+        }
+
+        .col-xl-12 {
+            @apply flex-none basis-full max-w-full;
+        }
+
         .navbar-expand-xl {
             @apply flex flex-row flex-nowrap justify-start;
         }

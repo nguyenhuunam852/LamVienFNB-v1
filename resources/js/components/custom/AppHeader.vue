@@ -3,14 +3,15 @@ import AppLogo from './AppLogo.vue'
 import NavBarItem from './NavBarItem.vue'
 import ResponsiveMenu from './ResponsiveMenu.vue'
 import type { NavItem } from '@/types'
-import { usePage } from '@inertiajs/vue3'
+import { router , usePage } from '@inertiajs/vue3'
 import { ref, computed, onMounted } from 'vue'
 import Collapse from '@/utils/collapse.js'
+import type { Auth } from '@/types'
 
 const mainNavItems: NavItem[] = [
   {
     title: 'Dashboard',
-    href: '/admin/login',
+    href: '/admin/dashboard',
     icon: 'fas fa-tachometer-alt',
   }, {
     title: 'Reports',
@@ -65,6 +66,8 @@ const mainNavItems: NavItem[] = [
 ]
 
 const page = usePage()
+const auth = computed(() => page.props.auth as Auth)
+
 const isCurrentRoute = computed(() => (url: string) => page.url === url)
 
 const activeItemStyles = computed(
@@ -84,6 +87,11 @@ const toggleCollapse = () => {
   collapseInstance?.toggle()
 }
 
+function logout() {
+  // eslint-disable-next-line no-undef
+  router.post(route('logout'))
+}
+
 </script>
 
 <template>
@@ -93,9 +101,7 @@ const toggleCollapse = () => {
 
             <ResponsiveMenu @click="toggleCollapse" />
 
-            <div
-                ref="collapseRef"
-                :class="['navbar-collapse collapse',
+            <div ref="collapseRef" :class="['navbar-collapse collapse',
                 'collapse-content',
                 'min-1200:h-[100%]',
                 'max-1199:right-[15px]',
@@ -106,16 +112,24 @@ const toggleCollapse = () => {
                 'max-1199:w-[200px]',
                 'max-1199:z-[1000]',
                 'max-575:!top-[47px]',
-                ]">
+            ]">
                 <ul class="navbar-nav mx-auto h-100">
-                    <NavBarItem v-for="(item, index) in mainNavItems" :key="index" :title="item.title" :icon="item.icon"
-                        :href="item.href" :subItems="item.subItems" :active="activeItemStyles(item.href)" />
+                    <template v-if="auth.user">
+                        <NavBarItem v-for="(item, index) in mainNavItems" :key="index" :title="item.title"
+                            :icon="item.icon" :href="item.href" :subItems="item.subItems"
+                            :active="activeItemStyles(item.href)" />
+                    </template>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a :class="['min-1200:!pl-[28px]', 'min-1200:!pr-[28px]', 'nav-link', 'd-block']" href="">
-                            Admin, <b>Logout</b>
-                        </a>
+                        <template v-if="auth.user">
+                            <a @click.prevent="logout" :class="['min-1200:!pl-[28px]', 'min-1200:!pr-[28px]', 'nav-link', 'd-block'
+                                ,'max-1199:bg-[#567086]',
+                                'max-1199:text-white'
+                            ]" href="">
+                                Admin, <b>Logout</b>
+                            </a>
+                        </template>
                     </li>
                 </ul>
             </div>

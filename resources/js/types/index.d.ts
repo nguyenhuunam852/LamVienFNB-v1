@@ -2,7 +2,7 @@ import type { PageProps } from '@inertiajs/core';
 import type { Config } from 'ziggy-js';
 
 export interface Auth {
-    user: User;
+    user?: User;
 }
 
 export interface BreadcrumbItem {

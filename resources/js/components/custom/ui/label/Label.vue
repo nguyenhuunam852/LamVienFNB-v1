@@ -1,0 +1,20 @@
+<script setup lang="ts">
+import { cn } from '@/lib/utils'
+import { Label, type LabelProps } from 'radix-vue'
+import { computed, type HTMLAttributes } from 'vue'
+
+const props = defineProps<LabelProps & { class?: HTMLAttributes['class'] }>()
+
+const delegatedProps = computed(() => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { class: _, ...delegated } = props
+
+  return delegated
+})
+</script>
+
+<template>
+    <Label v-bind="delegatedProps" :class="cn('text-white mb-10px label', props.class)">
+        <slot />
+    </Label>
+</template>

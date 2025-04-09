@@ -16,8 +16,12 @@ class AuthenticatedSessionController extends Controller
     /**
      * Show the login page.
      */
-    public function create(Request $request): Response
+    public function create(Request $request): Response |RedirectResponse
     {
+        if (Auth::check()) {
+            return redirect()->intended(route('dashboard', absolute: false));
+        }
+
         return Inertia::render('auth/custom/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => $request->session()->get('status'),
@@ -46,6 +50,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect(route('login'));
     }
 }
