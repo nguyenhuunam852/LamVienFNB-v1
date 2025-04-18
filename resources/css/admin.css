@@ -501,6 +501,32 @@ body {
         @apply p-3 align-top border-t border-[#dee2e6];
     }
 
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit
+    }
+
+    button,
+    input {
+        overflow: visible
+    }
+
+    input[type='checkbox'],
+    input[type='radio'] {
+        @apply box-border p-0;
+    }
+
+    .checkbox-checked:checked {
+        @apply bg-[#394e64] bg-center bg-no-repeat; /* Tailwind utilities */
+        background-image: url(/resources/images/check-mark.png); /* Custom background image */
+    }
+
     @media (min-width: 0px) {
         .container {
             max-width: none;

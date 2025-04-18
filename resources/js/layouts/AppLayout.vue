@@ -13,9 +13,11 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <div id="home">
+    <div id="home" class="min-h-screen flex flex-col">
         <AppHeader />
-        <slot />
+        <main class="flex-grow">
+            <slot />
+        </main>
         <AppFooter />
     </div>
 </template>

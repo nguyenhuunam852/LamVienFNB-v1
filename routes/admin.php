@@ -4,6 +4,8 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Models\Category;
 
 Route::group([
     'prefix' => 'admin'
@@ -18,6 +20,8 @@ Route::group([
             })->name('dashboard');
 
             Route::get('products', [ProductController::class, 'index'])->name('admin.product');
+
+            Route::get('categories', [CategoryController::class, 'index'])->name('admin.category');
         }
     );
 

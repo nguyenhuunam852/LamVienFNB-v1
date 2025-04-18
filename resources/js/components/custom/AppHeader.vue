@@ -35,6 +35,11 @@ const mainNavItems: NavItem[] = [
       },
     ],
   }, {
+    title: 'Categories',
+    href: '/admin/categories',
+    icon: 'fas fa-list',
+  }
+  , {
     title: 'Products',
     href: '/admin/products',
     icon: 'fas fa-shopping-cart',
@@ -68,7 +73,10 @@ const mainNavItems: NavItem[] = [
 const page = usePage()
 const auth = computed(() => page.props.auth as Auth)
 
-const isCurrentRoute = computed(() => (url: string) => page.url === url)
+const isCurrentRoute = computed(() => (url: string) => {
+  const currentUrl = new URL(page.url, window.location.href)
+  return currentUrl.pathname === url
+})
 
 const activeItemStyles = computed(
   () => (url: string) => (isCurrentRoute.value(url) ? 'active' : ''),

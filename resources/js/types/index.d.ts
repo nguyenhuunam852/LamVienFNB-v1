@@ -10,6 +10,12 @@ export interface BreadcrumbItem {
     href: string;
 }
 
+export interface PaginationData {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+}
+
 export interface NavItem {
     title: string;
     href: string;
