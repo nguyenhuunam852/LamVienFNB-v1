@@ -7,8 +7,16 @@ import { initializeTheme } from './composables/useAppearance';
 import $ from 'jquery';
 import AppLayout from './layouts/AppLayout.vue';
 import '@fortawesome/fontawesome-free/css/all.css';
+import Toast, {useToast} from "vue-toastification"
+import "vue-toastification/dist/index.css"
+import { router } from '@inertiajs/vue3'
 
 declare global {
+    interface FlashProps {
+        success?: string;
+        error?: string;
+    }
+
     interface Window {
         $: typeof $;
         jQuery: typeof $;
@@ -31,8 +39,21 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(Toast)
             .use(ZiggyVue)
             .mount(el);
+
+        const toast = useToast();
+        router.on('success', (event) => {
+            const flash = event.detail.page.props?.flash as FlashProps
+            if (flash?.success) {
+              toast.success(flash.success)
+            }
+
+            if (flash?.error) {
+              toast.error(flash.error)
+            }
+        })
     },
     progress: {
         color: '#4B5563',

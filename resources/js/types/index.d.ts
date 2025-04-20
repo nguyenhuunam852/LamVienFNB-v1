@@ -16,6 +16,11 @@ export interface PaginationData {
     totalItems: number;
 }
 
+export interface SortParams {
+    sortField?: string;
+    sortDirection?: string;
+}
+
 export interface NavItem {
     title: string;
     href: string;

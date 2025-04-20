@@ -289,6 +289,10 @@ body {
         -webkit-appearance: button
     }
 
+    textarea.form-control {
+        height: auto
+    }
+
     label {
         @apply inline-block mb-[.5rem]
     }
@@ -453,6 +457,14 @@ body {
         margin-bottom: 1.5rem !important
     }
 
+    .ml-auto,.mx-auto {
+        margin-left: auto!important
+    }
+
+    .mr-auto,.mx-auto {
+        margin-right: auto!important
+    }
+
     .collapsing {
         position: relative;
         height: 0;
@@ -561,6 +573,10 @@ body {
         .col-lg-12 {
             @apply flex-none basis-full max-w-full;
         }
+
+        .col-lg-10 {
+            @apply flex-[0_0_83.333333%] max-w-[83.333333%]
+        }
     }
 
     @media (min-width: 1200px) {
@@ -570,6 +586,10 @@ body {
 
         .col-xl-12 {
             @apply flex-none basis-full max-w-full;
+        }
+
+        .col-xl-9 {
+            @apply flex-[0_0_75%] max-w-[75%];
         }
 
         .navbar-expand-xl {
