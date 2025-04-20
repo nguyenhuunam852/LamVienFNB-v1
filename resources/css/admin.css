@@ -577,6 +577,10 @@ body {
         .col-lg-10 {
             @apply flex-[0_0_83.333333%] max-w-[83.333333%]
         }
+
+        .col-lg-6 {
+            @apply flex-[0_0_50%] max-w-[50%]
+        }
     }
 
     @media (min-width: 1200px) {
@@ -590,6 +594,10 @@ body {
 
         .col-xl-9 {
             @apply flex-[0_0_75%] max-w-[75%];
+        }
+
+        .col-xl-6 {
+            @apply flex-[0_0_50%] max-w-[50%];
         }
 
         .navbar-expand-xl {

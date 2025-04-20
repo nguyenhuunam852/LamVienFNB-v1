@@ -21,6 +21,11 @@ Route::group([
 
             Route::get('products', [ProductController::class, 'index'])->name('admin.product');
 
+            Route::get('products/new', [ProductController::class, 'create'])->name('admin.product.create');
+
+            Route::post('products/upload', [ProductController::class, 'upload'])->name('admin.product.upload');
+
+
             Route::get('categories', [CategoryController::class, 'index'])->name('admin.category');
 
             Route::get('categories/new', [CategoryController::class, 'create'])->name('admin.category.create');

@@ -23,6 +23,10 @@ class FlashHandleErrors
 
             if (count($errors) > 0) {
                 Session::flash('error', $errors[0]);
+
+                return redirect()->back()->with([
+                    'form' => $request->all(),
+                ]);
             }
         }
 

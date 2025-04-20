@@ -46,9 +46,12 @@ createInertiaApp({
         const toast = useToast();
         router.on('success', (event) => {
             const flash = event.detail.page.props?.flash as FlashProps
+            console.log(flash)
             if (flash?.success) {
               toast.success(flash.success)
             }
+
+            console.log(flash)
 
             if (flash?.error) {
               toast.error(flash.error)

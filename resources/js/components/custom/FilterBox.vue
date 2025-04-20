@@ -32,6 +32,7 @@ import { reactive, watch } from 'vue'
 
 interface FieldItem {
   label: string;
+  field: string;
   type: string;
   query: string;
 }
@@ -58,7 +59,9 @@ watch(
 function emitSearch() {
   const result: Record<string, string> = {}
   for (const item of internalFields) {
-    result[item.label] = item.query
+    if(item.query){
+      result[item.field] = item.query
+    }
   }
   emit('search', result)
 }

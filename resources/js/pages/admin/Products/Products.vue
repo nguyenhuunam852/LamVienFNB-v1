@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { Head, useForm } from '@inertiajs/vue3'
 import FilterBox from '@/components/custom/FilterBox.vue'
-import Pagination from '@/components/custom/Pagination.vue'
 import { ref } from 'vue'
 import type { PaginationData, SortParams } from '@/types'
+import { buildFilterMap } from '@/utils/filterMap'
 import SortableHeader from '@/components/custom/SortableHeader.vue'
-import ConfirmBox from '@/components/custom/ConfirmBox.vue'
+import Pagination from '@/components/custom/Pagination.vue'
 
-interface Categories {
+interface Filters {
+    searchFields?: string;
+    searchKeys?: string;
+}
+
+interface Products {
     id: number;
     name: string;
     description: string;
@@ -15,59 +20,46 @@ interface Categories {
     updated_at: Date;
 }
 
-interface Filters {
-    Category?: string;
-}
-
 interface Props {
-    categories: Categories[];
+    products: Products[];
     filters: Filters;
     pagination: PaginationData;
     sort: SortParams;
 }
 
 const props = defineProps<Props>()
-const show = ref(false)
+
 const sortField = ref('id')
 const sortDirection = ref('desc')
-const selectedId = ref<number | null>(null)
 
+const filterMap = buildFilterMap(
+  props.filters?.searchFields,
+  props.filters?.searchKeys,
+)
 const searchFields = ref([
-  { label: 'Category', field: 'name', type: 'text', query: props.filters.Category || '' },
+  { label: 'Name', field: 'name', type: 'text', query: '' },
+  { label: 'Description', field: 'description', type: 'text', query: '' },
 ])
 
+searchFields.value.forEach(fieldObj => {
+  fieldObj.query = filterMap[fieldObj.field] ?? ''
+})
+
 let form = useForm({
-  Category: props.filters.Category || '',
+  searchFields: props.filters.searchFields || '',
+  searchKeys: props.filters.searchKeys || '',
   page: props.pagination.currentPage || 1,
   sortField: props.sort.sortField || 'id',
   sortDirection: props.sort.sortDirection || 'desc',
 })
 
 function handleSearch(payload: Record<string, string>) {
-  form.Category = payload.Category
+
+  form.searchFields = Object.keys(payload).join(',')
+  form.searchKeys = Object.values(payload).join(',')
 
   // eslint-disable-next-line no-undef
-  form.get(route('admin.category'), {
-    preserveState: true,
-    preserveScroll: true,
-    onError: (errors) => console.error('Form errors:', errors),
-  })
-}
-
-function handleInsert() {
-  const createForm = useForm({})
-  // eslint-disable-next-line no-undef
-  createForm.get(route('admin.category.create'), {
-    preserveState: false,
-    onError: (errors) => console.error('Navigation errors:', errors),
-  })
-}
-
-function handlePageChange(newPage: number) {
-  form.page = newPage
-
-  // eslint-disable-next-line no-undef
-  form.get(route('admin.category'), {
+  form.get(route('admin.product'), {
     preserveState: true,
     preserveScroll: true,
     onError: (errors) => console.error('Form errors:', errors),
@@ -83,53 +75,38 @@ function handleSort(field: string, direction: string) {
   form.sortDirection = direction
 
   // eslint-disable-next-line no-undef
-  form.get(route('admin.category'), {
+  form.get(route('admin.product'), {
     preserveState: true,
     preserveScroll: true,
     onError: (errors) => console.error('Form errors:', errors),
   })
 }
 
-function handleItemClick(id: number) {
-  const editForm = useForm({})
+function handlePageChange(newPage: number) {
+  form.page = newPage
 
   // eslint-disable-next-line no-undef
-  editForm.get(route('admin.category.edit', {
-    category: id,
-  }), {
+  form.get(route('admin.product'), {
+    preserveState: true,
+    preserveScroll: true,
+    onError: (errors) => console.error('Form errors:', errors),
+  })
+}
+
+function handleInsert() {
+  const createForm = useForm({})
+  // eslint-disable-next-line no-undef
+  createForm.get(route('admin.product.create'), {
     preserveState: false,
     onError: (errors) => console.error('Navigation errors:', errors),
   })
 }
 
-function ShowDeletePopup(id: number) {
-  selectedId.value = id
-  show.value = true // Open the confirm box
-}
-
-function handleDelete() {
-  const deleteForm = useForm({})
-
-  // eslint-disable-next-line no-undef
-  deleteForm.delete(route('admin.category.delete', {
-    category: selectedId.value,
-  }), {
-    preserveState: false,
-    onError: (errors) => console.error('Navigation errors:', errors),
-  })
-}
 </script>
 
 <template>
 
     <Head title="Categories" />
-
-    <ConfirmBox :visible="show"
-        header='do u want to delete this'
-        content="cannot rollaback after submit"
-        @close="show = false"
-        @submit="handleDelete()"
-    />
 
     <div class="container mt-5">
         <div class="row tm-content-row">
@@ -146,7 +123,7 @@ function handleDelete() {
                                     <th
                                         class="border-b-0 pl-[12px] pr-[12px] border-t py-[15px] px-[25px] align-middle" />
 
-                                    <SortableHeader label="Category Name" field="name" :modelValue="sortField"
+                                    <SortableHeader label="Product Name" field="name" :modelValue="sortField"
                                         :direction="sortDirection" @update:modelValue="val => handleSort(val, 'desc')"
                                         @update:direction="val => handleSort(sortField, val)" />
 
@@ -166,9 +143,9 @@ function handleDelete() {
                                         class="border-b-0 border-t border-b-[#fff] border-[#486177] py-[15px] px-[25px] align-middle" />
                                 </tr>
                             </thead>
-                            <tbody v-if="categories.length > 0">
+                            <tbody v-if="products.length > 0">
                                 <!-- rows injected via JavaScript -->
-                                <tr v-for="item in categories" :key="item.id" @click="handleItemClick(item.id)"
+                                <tr v-for="item in products" :key="item.id"
                                     class="transition-all cursor-pointer duration-200 ease-in-out font-semibold bg-[#50697f] hover:bg-[#a0c0de]">
 
                                     <th
@@ -195,7 +172,7 @@ function handleDelete() {
                                     </td>
                                     <td
                                         class="pl-[12px] pr-[12px] border-t border-[#415a70] py-[15px] px-[25px] align-middle text-[0.95rem] font-semibold">
-                                        <a href="#" @click.stop="ShowDeletePopup(item.id)"
+                                        <a href="#"
                                             class="p-[10px] rounded-full bg-[#394e64] inline-block w-[40px] h-[40px] text-center hover:bg-[#394e64] hover:no-underline text-white">
                                             <i class="fa fa-trash-alt hover:text-[#6d8ca6] text-[1.1rem] font-normal" />
                                         </a>
@@ -206,7 +183,8 @@ function handleDelete() {
                     </div>
 
                     <div class="space-x-2 mt-[10px]">
-                        <button @click="handleInsert"
+                        <button
+                            @click="handleInsert"
                             class="px-4 py-2 bg-[#f5a623] text-white rounded hover:bg-[#6d8ca6] cursor-pointer">
                             Insert
                         </button>
@@ -214,10 +192,13 @@ function handleDelete() {
                             Delete Selected
                         </button>
                     </div>
+
                     <Pagination @update:currentPage="handlePageChange" :current-page="props.pagination.currentPage"
                         :total-pages="props.pagination.totalPages" :total-items="props.pagination.totalItems" />
+
                 </div>
             </div>
         </div>
     </div>
+
 </template>
