@@ -41,7 +41,7 @@ jobs:
         run: |
           mkdir -p laravel_temp
           rsync -a --exclude=".env" --exclude="bootstrap/cache" --exclude="public/index.php" --exclude="public/.htaccess" \
-            app bootstrap config database public resources/views routes storage vendor artisan composer.json composer.lock laravel_temp/
+            app bootstrap cacert.pem config database public resources/views routes storage vendor artisan composer.json composer.lock laravel_temp/
           cd laravel_temp
           zip -r ../laravel_temp.zip .
 
