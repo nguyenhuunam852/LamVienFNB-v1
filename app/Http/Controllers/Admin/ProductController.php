@@ -6,43 +6,12 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Controllers\Admin\CommonController;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+use App\Models\Product;
+use Illuminate\Support\Str;
 
 class ProductController extends CommonController
 {
     const RESOURCE  = 'products';
-
-    public function upload(Request $request)
-    {
-        $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-
-            $file = $request->file('file');
-
-            $img = Image::make($file);
-            $webpImage = $img->encode('webp', 90);
-
-            // $filename = time() . '_' . $file->getClientOriginalName();
-
-            $fileName = 'uploads/'. uniqid() . '.webp';
-            $path = Storage::disk('r2')->put($fileName, $webpImage);
-
-            // Manually construct the public URL
-            $url = env('R2_URL') . '/' . $fileName;
-
-            return response()->json([
-                'message' => 'Upload successful',
-                'uploadedUrl' => $url,
-            ]);
-        }
-
-        return response()->json(['error' => 'No file uploaded'], 400);
-    }
 
     public function index(Request $request)
     {
@@ -50,37 +19,36 @@ class ProductController extends CommonController
             $request,
             self::RESOURCE,
             'admin/Products/Products',
-            Category::class
+            Product::class,
+            ['category']
         );
     }
 
     public function create()
     {
-        return Inertia::render('admin/Products/AddProduct');
+        $categories = Category::all();
+        return Inertia::render('admin/Products/AddProduct', [
+            'categories' => $categories
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+
+        Product::create($request->validate([
+            'name' => 'required|string|min:2|max:100',
+            'description' => 'required|string|min:2|max:100',
+            'price' => 'required|numeric|min:0',
+            'categoryId' => 'required|integer|exists:categories,id',
+            'imageUrl' => 'nullable|url|max:255'
+        ]));
+
+        return redirect()->route('admin.product')->with('success', 'Product was successfully created!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+
     }
 
     /**

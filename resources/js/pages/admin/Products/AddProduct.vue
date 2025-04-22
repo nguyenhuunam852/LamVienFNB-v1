@@ -1,31 +1,50 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Head, useForm, usePage } from '@inertiajs/vue3'
+import { ref, watch } from 'vue'
+import { Head, useForm } from '@inertiajs/vue3'
 import { Input } from '@/components/custom/ui/input'
 import { Label } from '@/components/custom/ui/label'
 import { TextArea } from '@/components/custom/ui/textarea'
 import { Button } from '@/components/custom/ui/button'
-import AppImageUpload from '@/components/custom/AppImageUpload.vue'
+import { FileUpload } from '@/components/custom/ui/file_upload'
+import { SelectItem } from '@/components/custom/ui/select'
 
-const page = usePage()
+interface Categories {
+    id: number;
+    name: string;
+}
+
+interface Props {
+    categories: Categories[];
+}
+
+const props = defineProps<Props>()
 
 const form = useForm({
   name: '',
   description: '',
+  pictureUrl: '',
+  price: 0,
+  htmlContent: '',
+  categoryId: '',
 })
+
+const categoryOptions = ref<{ value: number; label: string }[]>([])
+
+watch(
+  () => props.categories,
+  (newCategories) => {
+    categoryOptions.value = newCategories.map(c => ({
+      value: c.id,
+      label: c.name,
+    }))
+  },
+  { immediate: true },
+)
 
 const submit = () => {
   // eslint-disable-next-line no-undef
-  form.post(route('admin.category.store'), {
+  form.post(route('admin.product.store'), {
   })
-}
-
-const uploadedUrl = ref(page.props.uploadedUrl as string || null)
-
-const imageUrl = ref('')
-
-function handleFileUrl(url) {
-  imageUrl.value = url
 }
 
 </script>
@@ -60,10 +79,23 @@ function handleFileUrl(url) {
                                         <TextArea id="productDescription" type="text" required autofocus :tabindex="2"
                                             v-model="form.description" />
                                     </div>
+
+                                    <div class="mb-[15px]">
+                                        <Label for="categoryId">Category</Label>
+                                        <SelectItem id="category" v-model="form.categoryId" :options="categoryOptions"
+                                            placeholder="Select a category" class="rounded" />
+                                    </div>
+
+                                    <div class="mb-[15px]">
+                                        <Label for="price">Product Price</Label>
+                                        <Input id="priceName" type="number" required autofocus :tabindex="1"
+                                            v-model="form.price" />
+                                    </div>
+
                                 </div>
 
                                 <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
-                                    <AppImageUpload :uploadedUrl="uploadedUrl" @file-selected="handleFileUrl" />
+                                    <FileUpload v-model="form.pictureUrl" />
                                 </div>
                             </div>
                             <div class="mb-[15px] mt-4">

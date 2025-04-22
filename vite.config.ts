@@ -15,7 +15,7 @@ export default defineConfig({
         laravel([
             'resources/css/admin.css',
             'resources/css/app.css',
-            'resources/js/app.ts',
+            'resources/js/app.ts', 'resources/js/grapes1.js'
         ]),
         vue({
             template: {
@@ -31,6 +31,7 @@ export default defineConfig({
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
             'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
+            'vue': 'vue/dist/vue.esm-bundler.js'
         },
     },
     css: {

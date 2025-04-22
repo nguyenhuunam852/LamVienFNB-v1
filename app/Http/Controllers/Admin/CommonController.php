@@ -11,7 +11,8 @@ class CommonController extends Controller
     public function commonIndex(Request $request,
     string $resource,
     string $view,
-    $model)
+    $model,
+    array $relationShip)
     {
         $searchFields =  $request->input('searchFields', '');
         $searchKeys = $request->input('searchKeys', '');
@@ -30,6 +31,10 @@ class CommonController extends Controller
                 $query->where($field, 'like', '%' . $key . '%');
                 $filters[$field] = $key;
             }
+        }
+
+        foreach ($relationShip as $model) {
+            $query->with($model);
         }
 
         $items = $query->orderBy($sortField, $sortDirection)->paginate(5)->withQueryString();

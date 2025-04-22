@@ -12,10 +12,16 @@ interface Filters {
     searchKeys?: string;
 }
 
+interface Category {
+    id: number;
+    name: string;
+}
+
 interface Products {
     id: number;
     name: string;
     description: string;
+    category: Category;
     created_at: Date;
     updated_at: Date;
 }
@@ -38,7 +44,6 @@ const filterMap = buildFilterMap(
 )
 const searchFields = ref([
   { label: 'Name', field: 'name', type: 'text', query: '' },
-  { label: 'Description', field: 'description', type: 'text', query: '' },
 ])
 
 searchFields.value.forEach(fieldObj => {
@@ -102,6 +107,11 @@ function handleInsert() {
   })
 }
 
+function editPage(id: number){
+  // eslint-disable-next-line no-undef
+  window.location.href = route('page.edit', { product: id })
+}
+
 </script>
 
 <template>
@@ -127,9 +137,9 @@ function handleInsert() {
                                         :direction="sortDirection" @update:modelValue="val => handleSort(val, 'desc')"
                                         @update:direction="val => handleSort(sortField, val)" />
 
-                                    <th
-                                        class="border-b-0 border-t border-b-[#fff] border-[#486177] py-[15px] px-[25px] align-middle">
-                                        Description</th>
+                                    <SortableHeader label="Category" field="categoryId" :modelValue="sortField"
+                                        :direction="sortDirection" @update:modelValue="val => handleSort(val, 'desc')"
+                                        @update:direction="val => handleSort(sortField, val)" />
 
                                     <SortableHeader label="Created At" field="created_at" :modelValue="sortField"
                                         :direction="sortDirection" @update:modelValue="val => handleSort(val, 'desc')"
@@ -139,6 +149,8 @@ function handleInsert() {
                                         :direction="sortDirection" @update:modelValue="val => handleSort(val, 'desc')"
                                         @update:direction="val => handleSort(sortField, val)" />
 
+                                    <th
+                                        class="border-b-0 border-t border-b-[#fff] border-[#486177] py-[15px] px-[25px] align-middle" />
                                     <th
                                         class="border-b-0 border-t border-b-[#fff] border-[#486177] py-[15px] px-[25px] align-middle" />
                                 </tr>
@@ -160,7 +172,7 @@ function handleInsert() {
                                     </td>
                                     <td
                                         class="pl-[12px] pr-[12px] border-t border-[#415a70] py-[15px] px-[25px] align-middle text-[0.95rem] font-semibold">
-                                        {{ item.description }}
+                                        {{ item.category.name }}
                                     </td>
                                     <td
                                         class="pl-[12px] pr-[12px] border-t border-[#415a70] py-[15px] px-[25px] align-middle text-[0.95rem] font-semibold">
@@ -169,6 +181,13 @@ function handleInsert() {
                                     <td
                                         class="pl-[12px] pr-[12px] border-t border-[#415a70] py-[15px] px-[25px] align-middle text-[0.95rem] font-semibold">
                                         {{ item.updated_at }}
+                                    </td>
+                                    <td
+                                        class="pl-[12px] pr-[12px] border-t border-[#415a70] py-[15px] px-[25px] align-middle text-[0.95rem] font-semibold">
+                                        <a href="#" @click.stop="editPage(item.id)"
+                                            class="p-[10px] rounded-full bg-[#394e64] inline-block w-[40px] h-[40px] text-center hover:bg-[#394e64] hover:no-underline text-white">
+                                            <i class="fa fa-pencil hover:text-[#6d8ca6] text-[1.1rem] font-normal" />
+                                        </a>
                                     </td>
                                     <td
                                         class="pl-[12px] pr-[12px] border-t border-[#415a70] py-[15px] px-[25px] align-middle text-[0.95rem] font-semibold">
@@ -183,8 +202,7 @@ function handleInsert() {
                     </div>
 
                     <div class="space-x-2 mt-[10px]">
-                        <button
-                            @click="handleInsert"
+                        <button @click="handleInsert"
                             class="px-4 py-2 bg-[#f5a623] text-white rounded hover:bg-[#6d8ca6] cursor-pointer">
                             Insert
                         </button>
