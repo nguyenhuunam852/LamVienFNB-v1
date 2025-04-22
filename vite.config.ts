@@ -15,7 +15,7 @@ export default defineConfig({
         laravel([
             'resources/css/admin.css',
             'resources/css/app.css',
-            'resources/js/app.ts', 'resources/js/grapes1.js'
+            'resources/js/app.ts', 'resources/js/grapes.js'
         ]),
         vue({
             template: {
