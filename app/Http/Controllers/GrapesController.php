@@ -11,11 +11,13 @@ class GrapesController extends Controller
     public function saveHtmlToPublic(Request $request)
     {
         $html = $request->input('html');
+        $id = $request->input('id');
+        $product = Product::find($id);
+        $product->update([
+            'htmlContent' => $html,
+        ]);
 
-        $path = public_path('grapes-output.html'); // You can customize the filename
-        File::put($path, $html);
-
-        return response()->json(['url' => asset('grapes-output.html')]);
+        return response()->json(['status' => 'done']);
     }
 
     public function grapesPreview(Request $request)
@@ -30,7 +32,8 @@ class GrapesController extends Controller
     {
         $contentHtml = $product->htmlContent;
         return view('grapes-template',[
-            'contentHtml' => $contentHtml
+            'contentHtml' => $contentHtml,
+            'productId' => $product->id
         ]);
     }
 }

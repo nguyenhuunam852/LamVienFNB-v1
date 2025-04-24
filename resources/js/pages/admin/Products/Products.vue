@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import FilterBox from '@/components/custom/FilterBox.vue'
-import { ref } from 'vue'
-import type { PaginationData, SortParams } from '@/types'
+import { ref, watch } from 'vue'
+import type { PaginationData, SortParams, Filters } from '@/types'
 import { buildFilterMap } from '@/utils/filterMap'
 import SortableHeader from '@/components/custom/SortableHeader.vue'
+import { CrudForm, useCrudHandlers } from '@/composables/useCrudHandlers'
 import Pagination from '@/components/custom/Pagination.vue'
-
-interface Filters {
-    searchFields?: string;
-    searchKeys?: string;
-}
+import ConfirmBox from '@/components/custom/ConfirmBox.vue'
 
 interface Category {
     id: number;
@@ -50,7 +47,7 @@ searchFields.value.forEach(fieldObj => {
   fieldObj.query = filterMap[fieldObj.field] ?? ''
 })
 
-let form = useForm({
+const initialForm: CrudForm = ({
   searchFields: props.filters.searchFields || '',
   searchKeys: props.filters.searchKeys || '',
   page: props.pagination.currentPage || 1,
@@ -58,56 +55,22 @@ let form = useForm({
   sortDirection: props.sort.sortDirection || 'desc',
 })
 
-function handleSearch(payload: Record<string, string>) {
+const {
+  handleSearch,
+  handlePagi,
+  handleSort,
+  handleAddPage,
+  handleUpdatePage,
+  handleDelete,
+  showDeletePopup,
+  toggleDeletePopup,
+} = useCrudHandlers('admin.product', initialForm)
 
-  form.searchFields = Object.keys(payload).join(',')
-  form.searchKeys = Object.values(payload).join(',')
+watch([sortField, sortDirection], ([field, direction]) => {
+  handleSort(field, direction)
+})
 
-  // eslint-disable-next-line no-undef
-  form.get(route('admin.product'), {
-    preserveState: true,
-    preserveScroll: true,
-    onError: (errors) => console.error('Form errors:', errors),
-  })
-}
-
-function handleSort(field: string, direction: string) {
-
-  sortField.value = field
-  sortDirection.value = direction
-
-  form.sortField = field
-  form.sortDirection = direction
-
-  // eslint-disable-next-line no-undef
-  form.get(route('admin.product'), {
-    preserveState: true,
-    preserveScroll: true,
-    onError: (errors) => console.error('Form errors:', errors),
-  })
-}
-
-function handlePageChange(newPage: number) {
-  form.page = newPage
-
-  // eslint-disable-next-line no-undef
-  form.get(route('admin.product'), {
-    preserveState: true,
-    preserveScroll: true,
-    onError: (errors) => console.error('Form errors:', errors),
-  })
-}
-
-function handleInsert() {
-  const createForm = useForm({})
-  // eslint-disable-next-line no-undef
-  createForm.get(route('admin.product.create'), {
-    preserveState: false,
-    onError: (errors) => console.error('Navigation errors:', errors),
-  })
-}
-
-function editPage(id: number){
+function editPage(id: number) {
   // eslint-disable-next-line no-undef
   window.location.href = route('page.edit', { product: id })
 }
@@ -117,6 +80,9 @@ function editPage(id: number){
 <template>
 
     <Head title="Categories" />
+
+    <ConfirmBox :visible="showDeletePopup" header='do u want to delete this' content="cannot rollaback after submit"
+        @close="showDeletePopup = false" @submit="handleDelete()" />
 
     <div class="container mt-5">
         <div class="row tm-content-row">
@@ -133,21 +99,17 @@ function editPage(id: number){
                                     <th
                                         class="border-b-0 pl-[12px] pr-[12px] border-t py-[15px] px-[25px] align-middle" />
 
-                                    <SortableHeader label="Product Name" field="name" :modelValue="sortField"
-                                        :direction="sortDirection" @update:modelValue="val => handleSort(val, 'desc')"
-                                        @update:direction="val => handleSort(sortField, val)" />
+                                    <SortableHeader :label="'Product Name'" :field="'name'"
+                                        v-model:modelValue="sortField" v-model:direction="sortDirection" />
 
-                                    <SortableHeader label="Category" field="categoryId" :modelValue="sortField"
-                                        :direction="sortDirection" @update:modelValue="val => handleSort(val, 'desc')"
-                                        @update:direction="val => handleSort(sortField, val)" />
+                                    <SortableHeader :label="'Category'" :field="'categoryId'"
+                                        v-model:modelValue="sortField" v-model:direction="sortDirection" />
 
-                                    <SortableHeader label="Created At" field="created_at" :modelValue="sortField"
-                                        :direction="sortDirection" @update:modelValue="val => handleSort(val, 'desc')"
-                                        @update:direction="val => handleSort(sortField, val)" />
+                                    <SortableHeader :label="'Created At'" :field="'created_at'"
+                                        v-model:modelValue="sortField" v-model:direction="sortDirection" />
 
-                                    <SortableHeader label="Updated At" field="updated_at" :modelValue="sortField"
-                                        :direction="sortDirection" @update:modelValue="val => handleSort(val, 'desc')"
-                                        @update:direction="val => handleSort(sortField, val)" />
+                                    <SortableHeader :label="'Updated At'" :field="'updated_at'"
+                                        v-model:modelValue="sortField" v-model:direction="sortDirection" />
 
                                     <th
                                         class="border-b-0 border-t border-b-[#fff] border-[#486177] py-[15px] px-[25px] align-middle" />
@@ -157,7 +119,7 @@ function editPage(id: number){
                             </thead>
                             <tbody v-if="products.length > 0">
                                 <!-- rows injected via JavaScript -->
-                                <tr v-for="item in products" :key="item.id"
+                                <tr v-for="item in products" :key="item.id" @click="handleUpdatePage(item.id)"
                                     class="transition-all cursor-pointer duration-200 ease-in-out font-semibold bg-[#50697f] hover:bg-[#a0c0de]">
 
                                     <th
@@ -172,7 +134,7 @@ function editPage(id: number){
                                     </td>
                                     <td
                                         class="pl-[12px] pr-[12px] border-t border-[#415a70] py-[15px] px-[25px] align-middle text-[0.95rem] font-semibold">
-                                        {{ item.category.name }}
+                                        {{ item.category?.name }}
                                     </td>
                                     <td
                                         class="pl-[12px] pr-[12px] border-t border-[#415a70] py-[15px] px-[25px] align-middle text-[0.95rem] font-semibold">
@@ -191,7 +153,7 @@ function editPage(id: number){
                                     </td>
                                     <td
                                         class="pl-[12px] pr-[12px] border-t border-[#415a70] py-[15px] px-[25px] align-middle text-[0.95rem] font-semibold">
-                                        <a href="#"
+                                        <a href="#" @click.stop="toggleDeletePopup(item.id)"
                                             class="p-[10px] rounded-full bg-[#394e64] inline-block w-[40px] h-[40px] text-center hover:bg-[#394e64] hover:no-underline text-white">
                                             <i class="fa fa-trash-alt hover:text-[#6d8ca6] text-[1.1rem] font-normal" />
                                         </a>
@@ -202,7 +164,7 @@ function editPage(id: number){
                     </div>
 
                     <div class="space-x-2 mt-[10px]">
-                        <button @click="handleInsert"
+                        <button @click="handleAddPage"
                             class="px-4 py-2 bg-[#f5a623] text-white rounded hover:bg-[#6d8ca6] cursor-pointer">
                             Insert
                         </button>
@@ -211,7 +173,7 @@ function editPage(id: number){
                         </button>
                     </div>
 
-                    <Pagination @update:currentPage="handlePageChange" :current-page="props.pagination.currentPage"
+                    <Pagination @update:currentPage="handlePagi" :current-page="props.pagination.currentPage"
                         :total-pages="props.pagination.totalPages" :total-items="props.pagination.totalItems" />
 
                 </div>

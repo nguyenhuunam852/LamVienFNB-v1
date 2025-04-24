@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { Head, useForm } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import FilterBox from '@/components/custom/FilterBox.vue'
 import Pagination from '@/components/custom/Pagination.vue'
-import { ref } from 'vue'
-import type { PaginationData, SortParams } from '@/types'
+import { ref, watch } from 'vue'
+import type { PaginationData, SortParams, Filters } from '@/types'
 import SortableHeader from '@/components/custom/SortableHeader.vue'
 import ConfirmBox from '@/components/custom/ConfirmBox.vue'
+import { CrudForm, useCrudHandlers } from '@/composables/useCrudHandlers'
+import { buildFilterMap } from '@/utils/filterMap'
 
 interface Categories {
     id: number;
@@ -13,10 +15,6 @@ interface Categories {
     description: string;
     created_at: Date;
     updated_at: Date;
-}
-
-interface Filters {
-    Category?: string;
 }
 
 interface Props {
@@ -27,109 +25,54 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const show = ref(false)
-const sortField = ref('id')
-const sortDirection = ref('desc')
-const selectedId = ref<number | null>(null)
 
-const searchFields = ref([
-  { label: 'Category', field: 'name', type: 'text', query: props.filters.Category || '' },
-])
-
-let form = useForm({
-  Category: props.filters.Category || '',
+const initialForm: CrudForm = ({
+  searchFields: props.filters.searchFields || '',
+  searchKeys: props.filters.searchKeys || '',
   page: props.pagination.currentPage || 1,
   sortField: props.sort.sortField || 'id',
   sortDirection: props.sort.sortDirection || 'desc',
 })
 
-function handleSearch(payload: Record<string, string>) {
-  form.Category = payload.Category
+const {
+  handleSearch,
+  handlePagi,
+  handleSort,
+  handleAddPage,
+  handleUpdatePage,
+  handleDelete,
+  showDeletePopup,
+  toggleDeletePopup,
+} = useCrudHandlers('admin.category', initialForm)
 
-  // eslint-disable-next-line no-undef
-  form.get(route('admin.category'), {
-    preserveState: true,
-    preserveScroll: true,
-    onError: (errors) => console.error('Form errors:', errors),
-  })
-}
+const sortField = ref('id')
+const sortDirection = ref('desc')
 
-function handleInsert() {
-  const createForm = useForm({})
-  // eslint-disable-next-line no-undef
-  createForm.get(route('admin.category.create'), {
-    preserveState: false,
-    onError: (errors) => console.error('Navigation errors:', errors),
-  })
-}
+watch([sortField, sortDirection], ([field, direction]) => {
+  handleSort(field, direction)
+})
 
-function handlePageChange(newPage: number) {
-  form.page = newPage
+const searchFields = ref([
+  { label: 'name', field: 'name', type: 'text', query: '' },
+])
 
-  // eslint-disable-next-line no-undef
-  form.get(route('admin.category'), {
-    preserveState: true,
-    preserveScroll: true,
-    onError: (errors) => console.error('Form errors:', errors),
-  })
-}
+const filterMap = buildFilterMap(
+  props.filters?.searchFields,
+  props.filters?.searchKeys,
+)
 
-function handleSort(field: string, direction: string) {
+searchFields.value.forEach(fieldObj => {
+  fieldObj.query = filterMap[fieldObj.field] ?? ''
+})
 
-  sortField.value = field
-  sortDirection.value = direction
-
-  form.sortField = field
-  form.sortDirection = direction
-
-  // eslint-disable-next-line no-undef
-  form.get(route('admin.category'), {
-    preserveState: true,
-    preserveScroll: true,
-    onError: (errors) => console.error('Form errors:', errors),
-  })
-}
-
-function handleItemClick(id: number) {
-  const editForm = useForm({})
-
-  // eslint-disable-next-line no-undef
-  editForm.get(route('admin.category.edit', {
-    category: id,
-  }), {
-    preserveState: false,
-    onError: (errors) => console.error('Navigation errors:', errors),
-  })
-}
-
-function ShowDeletePopup(id: number) {
-  selectedId.value = id
-  show.value = true // Open the confirm box
-}
-
-function handleDelete() {
-  const deleteForm = useForm({})
-
-  // eslint-disable-next-line no-undef
-  deleteForm.delete(route('admin.category.delete', {
-    category: selectedId.value,
-  }), {
-    preserveState: false,
-    onError: (errors) => console.error('Navigation errors:', errors),
-  })
-}
 </script>
 
 <template>
 
     <Head title="Categories" />
 
-    <ConfirmBox :visible="show"
-        header='do u want to delete this'
-        content="cannot rollaback after submit"
-        @close="show = false"
-        @submit="handleDelete()"
-    />
+    <ConfirmBox :visible="showDeletePopup" header='do u want to delete this' content="cannot rollaback after submit"
+        @close="showDeletePopup = false" @submit="handleDelete()" />
 
     <div class="container mt-5">
         <div class="row tm-content-row">
@@ -146,21 +89,18 @@ function handleDelete() {
                                     <th
                                         class="border-b-0 pl-[12px] pr-[12px] border-t py-[15px] px-[25px] align-middle" />
 
-                                    <SortableHeader label="Category Name" field="name" :modelValue="sortField"
-                                        :direction="sortDirection" @update:modelValue="val => handleSort(val, 'desc')"
-                                        @update:direction="val => handleSort(sortField, val)" />
+                                    <SortableHeader :label="'Category Name'" :field="'name'"
+                                        v-model:modelValue="sortField" v-model:direction="sortDirection" />
 
                                     <th
                                         class="border-b-0 border-t border-b-[#fff] border-[#486177] py-[15px] px-[25px] align-middle">
                                         Description</th>
 
-                                    <SortableHeader label="Created At" field="created_at" :modelValue="sortField"
-                                        :direction="sortDirection" @update:modelValue="val => handleSort(val, 'desc')"
-                                        @update:direction="val => handleSort(sortField, val)" />
+                                    <SortableHeader :label="'Create At'" :field="'created_at'"
+                                        v-model:modelValue="sortField" v-model:direction="sortDirection" />
 
-                                    <SortableHeader label="Updated At" field="updated_at" :modelValue="sortField"
-                                        :direction="sortDirection" @update:modelValue="val => handleSort(val, 'desc')"
-                                        @update:direction="val => handleSort(sortField, val)" />
+                                    <SortableHeader :label="'Update At'" :field="'updated_at'"
+                                        v-model:modelValue="sortField" v-model:direction="sortDirection" />
 
                                     <th
                                         class="border-b-0 border-t border-b-[#fff] border-[#486177] py-[15px] px-[25px] align-middle" />
@@ -168,7 +108,7 @@ function handleDelete() {
                             </thead>
                             <tbody v-if="categories.length > 0">
                                 <!-- rows injected via JavaScript -->
-                                <tr v-for="item in categories" :key="item.id" @click="handleItemClick(item.id)"
+                                <tr v-for="item in categories" :key="item.id" @click="handleUpdatePage(item.id)"
                                     class="transition-all cursor-pointer duration-200 ease-in-out font-semibold bg-[#50697f] hover:bg-[#a0c0de]">
 
                                     <th
@@ -195,7 +135,7 @@ function handleDelete() {
                                     </td>
                                     <td
                                         class="pl-[12px] pr-[12px] border-t border-[#415a70] py-[15px] px-[25px] align-middle text-[0.95rem] font-semibold">
-                                        <a href="#" @click.stop="ShowDeletePopup(item.id)"
+                                        <a href="#" @click.stop="toggleDeletePopup(item.id)"
                                             class="p-[10px] rounded-full bg-[#394e64] inline-block w-[40px] h-[40px] text-center hover:bg-[#394e64] hover:no-underline text-white">
                                             <i class="fa fa-trash-alt hover:text-[#6d8ca6] text-[1.1rem] font-normal" />
                                         </a>
@@ -206,7 +146,7 @@ function handleDelete() {
                     </div>
 
                     <div class="space-x-2 mt-[10px]">
-                        <button @click="handleInsert"
+                        <button @click="handleAddPage"
                             class="px-4 py-2 bg-[#f5a623] text-white rounded hover:bg-[#6d8ca6] cursor-pointer">
                             Insert
                         </button>
@@ -214,7 +154,7 @@ function handleDelete() {
                             Delete Selected
                         </button>
                     </div>
-                    <Pagination @update:currentPage="handlePageChange" :current-page="props.pagination.currentPage"
+                    <Pagination @update:currentPage="handlePagi" :current-page="props.pagination.currentPage"
                         :total-pages="props.pagination.totalPages" :total-items="props.pagination.totalItems" />
                 </div>
             </div>

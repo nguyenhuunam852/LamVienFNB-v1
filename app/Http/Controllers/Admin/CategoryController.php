@@ -7,58 +7,23 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Http\Controllers\Admin\CommonController;
 
-class CategoryController extends Controller
+class CategoryController extends CommonController
 {
+    const RESOURCE  = 'categories';
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $sortField = $request->input('sortField') ?? "id";
-        $sortDirection = $request->input('sortDirection') ?? "desc";
-
-        $categories = Category::query()
-            ->when(
-                $request->input('Category') || $request->input('Category') != "",
-                fn($query) => $query->where('name', 'like', '%' . $request->input('Category') . '%')
-            )
-            ->orderBy($sortField, $sortDirection)
-            ->paginate(5);
-
-        // Check if results are empty
-        if ($categories->isEmpty()) {
-            // No results found
-            return Inertia::render('admin/Categories/Categories', [
-                'categories' => $categories->items(),
-                'filters' => $request->only('Category'),
-                'message' => 'No categories found.',
-                'sort' => [
-                    'sortField' => 'id',
-                    'sortDirection' => 'desc'
-                ],
-                'pagination' => [
-                    'currentPage' => 1,
-                    'totalPages' => 1,
-                    'totalItems' => 0,
-                ]
-            ]);
-        }
-
-        // Results found
-        return Inertia::render('admin/Categories/Categories', [
-            'categories' => $categories->items(),
-            'filters' => $request->only('Category'),
-            'sort' => [
-                'sortField' =>  $sortField,
-                'sortDirection' => $sortDirection
-            ],
-            'pagination' => [
-                'currentPage' => $categories->currentPage(),
-                'totalPages' => $categories->lastPage(),
-                'totalItems' => $categories->total(),
-            ],
-        ]);
+        return $this->commonIndex(
+            $request,
+            self::RESOURCE,
+            'admin/Categories/Categories',
+            Category::class,
+            []
+        );
     }
 
     public function create()
