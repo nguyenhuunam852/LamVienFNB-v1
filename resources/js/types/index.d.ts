@@ -10,6 +10,11 @@ export interface BreadcrumbItem {
     href: string;
 }
 
+export interface Filters {
+    searchFields?: string;
+    searchKeys?: string;
+}
+
 export interface PaginationData {
     currentPage: number;
     totalPages: number;

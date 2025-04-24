@@ -16,12 +16,14 @@ let editor = null
 
 const props = defineProps({
   contentHtml: String,
+  itemId: Number,
 })
 
 document.addEventListener('keydown', function(e) {
   if ((e.ctrlKey || e.metaKey) && e.key === 'm') {
-    e.preventDefault() // This prevents the default browser Save dialog
+    e.preventDefault()
     e.stopPropagation()
+    e.stopImmediatePropagation()
     const html = editor.getHtml()
     const css = editor.getCss()
 
@@ -42,6 +44,7 @@ document.addEventListener('keydown', function(e) {
         'X-CSRF-TOKEN': token,
       },
       body: JSON.stringify({
+        id: props.itemId,
         html: fullHtml,
       }),
     })
@@ -53,9 +56,8 @@ document.addEventListener('keydown', function(e) {
         return res.json()
       })
       .then(data => {
-        if (data.url) {
-          alert('✅ Saved! URL: ' + data
-            .url) // Show success message with the URL of the saved HTML file
+        if (data.status) {
+          alert('✅ Saved!') // Show success message with the URL of the saved HTML file
         } else {
           alert('❌ Failed to save')
         }
@@ -69,6 +71,7 @@ document.addEventListener('keydown', function(e) {
 })
 
 onMounted(() => {
+  console.log(props.contentHtml)
   editor = grapesjs.init({
     container: '#gjs',
     plugins: [webpagePreset,basicBlocks,formsPlugin],
@@ -77,13 +80,41 @@ onMounted(() => {
       [basicBlocks]: {},
       [formsPlugin]: {},
     },
+    assetManager: {
+      upload: false,
+      uploadName: 'file',
+      uploadFile: (e) => {
+
+        const files = e.dataTransfer ? e.dataTransfer.files : e.target.files
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        const formData = new FormData()
+        formData.append('file', files[0])
+
+        fetch('/admin/upload', {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': token,
+          },
+          body: formData,
+        })
+          .then(res => res.json())
+          .then(result => {
+            // assume result.url is your uploaded file URL
+            editor.AssetManager.add(result.uploadedUrl) // adds it as a usable asset
+          })
+      },
+    },
     storageManager: {
       type: 'local',
       autosave: true,
       autoload: true,
       stepsBeforeSave: 1,
     },
-  }).setComponents(props.contentHtml || '<div class="default">Start Editing</div>')
+  })
+
+  editor.on('load', () => {
+    editor.setComponents(props.contentHtml || '<div class="default">Start Editing</div>')
+  })
 
   editor.DomComponents.addType('Section', {
     model: {

@@ -4,7 +4,7 @@
       class="cursor-pointer border-b-0 border-t border-b-[#fff] border-[#486177] py-[15px] px-[25px] align-middle select-none items-center gap-1"
     >
       <span>{{ label }}</span>
-      <span v-if="active">
+      <span v-if="isActive">
         <svg
           v-if="direction === 'asc'"
           xmlns="http://www.w3.org/2000/svg"
@@ -35,15 +35,16 @@ import { computed } from 'vue'
 const props = defineProps({
   label: String,
   field: String,
-  modelValue: String,
-  direction: String,
+  modelValue: String,  // bound to sortField
+  direction: String,   // bound to sortDirection
 })
+
 const emit = defineEmits(['update:modelValue', 'update:direction'])
 
-const active = computed(() => props.modelValue === props.field)
+const isActive = computed(() => props.modelValue === props.field)
 
 function toggleSort() {
-  if (!active.value) {
+  if (!isActive.value) {
     emit('update:modelValue', props.field)
     emit('update:direction', 'asc')
   } else {

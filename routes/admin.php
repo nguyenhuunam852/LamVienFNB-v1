@@ -31,6 +31,10 @@ Route::group([
             Route::get('products', [ProductController::class, 'index'])->name('admin.product');
             Route::get('products/new', [ProductController::class, 'create'])->name('admin.product.create');
             Route::post('products/new', [ProductController::class, 'store'])->name('admin.product.store');
+            Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('admin.product.edit');
+            Route::put('products/{product}', [ProductController::class, 'update'])->name('admin.product.update');
+            Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('admin.product.delete');
+
             Route::get('products/page/{product}/edit', [GrapesController::class, 'grapesTemplate'])->name('page.edit');
 
             Route::get('categories', [CategoryController::class, 'index'])->name('admin.category');

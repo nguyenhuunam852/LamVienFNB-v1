@@ -24,6 +24,7 @@ const fileInput = ref<HTMLInputElement | null>(null)
 const previewUrl = ref<string | null>(modelValue.value || null)
 
 watch(modelValue, (newVal) => {
+  console.log(newVal)
   previewUrl.value = newVal || null
 })
 

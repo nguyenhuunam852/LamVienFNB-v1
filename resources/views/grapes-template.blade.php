@@ -14,7 +14,7 @@
 
     <main>
         <div id="grapes-app" class="h-full">
-            <grapes-editor :content-html='{!! json_encode($contentHtml) !!}'></grapes-editor>
+            <grapes-editor :item-id='{{ $productId }}' :content-html='@json($contentHtml)'></grapes-editor>
         </div>
     </main>
 

@@ -35,12 +35,19 @@ class CommonController extends Controller
 
         foreach ($relationShip as $model) {
             $query->with($model);
+
+            $tests = $query->with($model)->get();
         }
 
         $items = $query->orderBy($sortField, $sortDirection)->paginate(5)->withQueryString();
+        // dd($items->items());
+
+        $flattenedItems = collect($items->items())->map(function ($item) {
+            return $item->toArray();
+        });
 
         return Inertia::render($view, [
-            $resource => $items->items(),
+            $resource => $flattenedItems,
             'filters' => [
                 "searchFields" => $searchFields,
                 "searchKeys" => $searchKeys
