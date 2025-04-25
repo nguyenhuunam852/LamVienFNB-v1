@@ -13,14 +13,45 @@
     </style>
 @endpush
 
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.menu-sidebar-link').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const category = this.dataset.category;
+
+                    if(category == "*" || category == ""){
+                        window.location.href = window.location.origin + window.location.pathname;
+                    }
+                    else if (category) {
+                        window.location.href = '?category=' + encodeURIComponent(category);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.product-card').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const product = this.dataset.product;
+
+                    if (product) {
+                        window.location.href = '/chi-tiet-san-pham/' + encodeURIComponent(product);
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
+
 @section('content')
-<div class="collection_menu_wrap pt-[40px] pb-[50px] max-991:pt-[2px]">
-    <div class="container
+    <div class="collection_menu_wrap pt-[40px] pb-[50px] max-991:pt-[2px]">
+        <div class="container
         before:content-[' '] before:table after:clear-both after:content-[' '] after:table">
-        <div class="row
+            <div class="row
             before:content-[' '] before:table after:clear-both after:content-[' '] after:table">
-            <div
-                class="stikySidebar
+                <div
+                    class="stikySidebar
                 w-[100%]
                 float-left
                 top-[70px]
@@ -40,28 +71,24 @@
                 max-991:z-[2]
                 max-991:shadow-[0px_8px_36px_0px_#0000002B]
                 ">
-                <aside class="sidebar_menu bg-[#fff] block max-991:mb-[0px]">
-                    <ul class="p-0 m-0 max-991:hidden min-992:block">
-                        <x-menu-sidebar-item message="Tất cả" :isActive="true">
-                        </x-menu-sidebar-item>
-                        <x-menu-sidebar-item message="option A" :isActive="false">
-                        </x-menu-sidebar-item>
-                        <x-menu-sidebar-item message="option B" :isActive="false">
-                        </x-menu-sidebar-item>
-                        <x-menu-sidebar-item message="option C" :isActive="false">
-                        </x-menu-sidebar-item>
-                        <x-menu-sidebar-item message="option D" :isActive="false">
-                        </x-menu-sidebar-item>
-                        <x-menu-sidebar-item message="option E" :isActive="false">
-                        </x-menu-sidebar-item>
-                    </ul>
-                    <select class="leading-inherit normal-case bg-inherit max-991:block max-991:text-[16px] max-991:py-[8px] max-991:px-[12px] max-991:border max-991:border-[#00000026] max-991:rounded-[8px] max-991:w-full min-992:hidden">
+                    <aside class="sidebar_menu bg-[#fff] block max-991:mb-[0px]">
+                        <ul class="p-0 m-0 max-991:hidden min-992:block">
+                            <x-menu-sidebar-item id="*" message="Tất cả" :isActive="$selected == null">
+                            </x-menu-sidebar-item>
+                            @foreach ($categories as $category)
+                                <x-menu-sidebar-item :id="$category->slug" :message="$category->name" :isActive="$category->slug == $selected">
+                                </x-menu-sidebar-item>
+                            @endforeach
+                        </ul>
+                        <select
+                            class="leading-inherit normal-case bg-inherit max-991:block max-991:text-[16px] max-991:py-[8px] max-991:px-[12px] max-991:border max-991:border-[#00000026] max-991:rounded-[8px] max-991:w-full min-992:hidden">
 
-                    </select>
-                </aside>
-            </div>
+                        </select>
+                    </aside>
+                </div>
 
-            <div class=
+                <div
+                    class=
             "col-lg-9 col-md-9 col-sm-12 col-xs-12
             before:content-['']
             before:absolute
@@ -77,24 +104,20 @@
             min-1200:w-[75%]
             min-1200:float-left
             ">
-                <div>
-                    <h3 class= "block_menu_item_title text-[#000] m-0 text-[18px]">
-                        <span class="float-none inline-block mb-[24px] relative mt-0 text-[35px] font-sans">
-                            Cà Phê Highlight
-                        </span>
-                    </h3>
-                    <div class= "menu_list_collection mx-[-15px] flex flex-wrap min-992:flex">
-                        <x-cards />
-                        <x-cards />
-                        <x-cards />
-                        <x-cards />
+                    <div>
+                        <h3 class= "block_menu_item_title text-[#000] m-0 text-[18px]">
+                            <span class="float-none inline-block mb-[24px] relative mt-0 text-[35px] font-sans">
+                                Cà Phê Highlight
+                            </span>
+                        </h3>
+                        <div class= "menu_list_collection mx-[-15px] flex flex-wrap min-992:flex">
+                            @foreach ($items as $item)
+                                <x-cards :product="$item" />
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
-
-@push('scripts')
-@endpush
